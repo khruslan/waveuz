@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+dist
+coverage
+*.tsbuildinfo
+playwright-report
+test-results
+.ms-playwright
+.npm-cache
+.env
+.env.local
+.env.*.local
+.DS_Store
+.superpowers/

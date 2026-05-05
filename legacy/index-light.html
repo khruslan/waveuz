@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WaveLabs — AI Engineering Studio · Tashkent</title>
+<meta name="description" content="WaveLabs is a C-level AI engineering studio based in Tashkent, Uzbekistan. Official resident of IT Park, AIFC, and Astana Hub. We build AI systems, enterprise software, and data infrastructure that close $10M+ contracts across Central Asia.">
+<meta property="og:title" content="WaveLabs — AI Engineering Studio">
+<meta property="og:description" content="C-level AI execution. Official resident of IT Park · AIFC · Astana Hub. Closing $10M+ enterprise contracts across Central Asia.">
+<meta property="og:type" content="website">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://unpkg.com/split-type@0.3.4/umd/index.min.js"></script>
+
+<style>
+:root {
+  --bg:  #F8F6F1;
+  --bg2: #F0EDE6;
+  --bg3: #E8E4DB;
+  --fg:  #0E0D0B;
+  --fg2: rgba(14,13,11,.52);
+  --fg3: rgba(14,13,11,.26);
+  --a:   #D4002A;
+  --a2:  #1B3A6B;
+  --line:  rgba(14,13,11,.09);
+  --line2: rgba(14,13,11,.16);
+  --f1: 'Syne', sans-serif;
+  --f2: 'Outfit', sans-serif;
+  --ease: cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{background:var(--bg);color:var(--fg);font-family:var(--f2);overflow-x:hidden;}
+body{overflow-x:hidden;cursor:none;}
+*,*::before,*::after{cursor:none !important;}
+::selection{background:var(--a);color:var(--bg);}
+a{text-decoration:none;color:inherit;}
+img{display:block;width:100%;height:100%;object-fit:cover;}
+
+/* NOISE */
+body::after{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.018;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
+
+/* SCROLL PROGRESS */
+#progress{position:fixed;top:0;left:0;height:2px;z-index:9997;background:linear-gradient(90deg,var(--a),var(--a2));width:0%;transition:width .1s linear;}
+
+
+/* CURSOR */
+#cursor-canvas{position:fixed;inset:0;z-index:999999;pointer-events:none;}
+
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .8s var(--ease),visibility .8s;}
+#loader.out{opacity:0;visibility:hidden;}
+.ld-logo{font-family:var(--f1);font-size:14px;font-weight:800;letter-spacing:.3em;text-transform:uppercase;}
+.ld-bar{width:200px;height:1px;background:var(--line2);position:relative;overflow:hidden;}
+.ld-bar::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--a);animation:ldFill 1.5s var(--ease) forwards;}
+@keyframes ldFill{to{left:0;}}
+.ld-n{font-family:var(--f1);font-size:10px;letter-spacing:.2em;color:var(--fg3);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:72px;background:var(--bg);border-bottom:1px solid var(--line);transition:box-shadow .3s;}
+nav.stuck{box-shadow:0 1px 0 var(--line2);}
+.nav-logo{font-family:var(--f1);font-size:14px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-family:var(--f2);font-size:13px;color:var(--fg2);transition:color .2s;position:relative;padding-bottom:2px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--a);transition:width .3s;}
+.nav-links a:hover{color:var(--fg);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{font-family:var(--f1);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--bg);background:var(--a);padding:10px 24px;transition:background .2s;border:none;cursor:none;}
+.nav-cta:hover{background:var(--fg);}
+
+/* HERO — video background */
+#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:72px 0 0;overflow:hidden;background:var(--bg);}
+
+/* hero video */
+.hero-video-wrap{position:absolute;inset:0;z-index:0;overflow:hidden;}
+.hero-video-wrap video{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.4s ease;}
+.hero-video-wrap video.loaded{opacity:.22;}
+.hero-video-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(248,246,241,.96) 0%,rgba(248,246,241,.82) 45%,rgba(248,246,241,.7) 100%);}
+
+/* animated dot grid on top of video */
+.hero-dots{position:absolute;inset:0;z-index:1;background-image:radial-gradient(circle,rgba(14,13,11,.12) 1px,transparent 1px);background-size:38px 38px;animation:dotsBreath 8s ease-in-out infinite alternate;mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,black 0%,transparent 100%);}
+@keyframes dotsBreath{0%{background-size:38px 38px;opacity:.4}100%{background-size:42px 42px;opacity:.22}}
+
+.hero-body{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;padding:100px 48px 0;max-width:1100px;}
+.hero-eyebrow{font-family:var(--f1);font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--a);display:flex;align-items:center;gap:12px;margin-bottom:28px;opacity:0;animation:fadeL .8s .3s var(--ease) forwards;}
+.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--a);}
+
+.hero-title{font-family:var(--f1);font-weight:800;font-size:clamp(48px,7.5vw,118px);line-height:.92;letter-spacing:-.035em;margin-bottom:44px;}
+.hero-title .word{white-space:nowrap;display:inline-block;}
+.hero-title .char{display:inline-block;will-change:transform;}
+.hero-title em{font-style:italic;color:var(--a);font-weight:800;}
+
+.hero-rule{width:0;height:2px;background:var(--a);margin-bottom:28px;animation:ruleExpand .7s .7s var(--ease) forwards;}
+@keyframes ruleExpand{to{width:80px;}}
+
+.hero-sub{font-family:var(--f2);font-size:clamp(15px,1.4vw,18px);color:var(--fg2);line-height:1.65;max-width:560px;margin-bottom:52px;opacity:0;animation:fadeL .8s .75s var(--ease) forwards;}
+
+.hero-cta-bar{display:flex;align-items:center;gap:28px;margin-bottom:80px;opacity:0;animation:fadeL .8s .85s var(--ease) forwards;}
+
+.hero-bottom-bar{display:grid;gap:0;border-top:1px solid var(--line);width:100%;position:relative;z-index:3;}
+.hbb-col{padding:22px 40px;border-right:1px solid var(--line);}
+.hbb-col:last-child{border-right:none;}
+.hbb-label{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3);margin-bottom:6px;}
+.hbb-val{font-family:var(--f2);font-size:13px;color:var(--fg2);line-height:1.5;}
+
+@keyframes fadeL{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
+
+.hero-scroll{position:absolute;right:48px;bottom:48px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:3;}
+.hs-line{width:1px;height:56px;background:var(--line2);position:relative;overflow:hidden;}
+.hs-line::after{content:'';position:absolute;top:-100%;width:100%;height:100%;background:var(--a);animation:scanDown 2.2s ease-in-out infinite;}
+@keyframes scanDown{0%{top:-100%}100%{top:200%}}
+.hs-txt{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3);writing-mode:vertical-rl;}
+
+/* MARQUEE */
+.mq-wrap{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2);}
+.mq-track{display:flex;white-space:nowrap;animation:mq 24s linear infinite;}
+.mq-track span{font-family:var(--f1);font-size:10px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--fg2);padding:16px 40px;display:inline-flex;align-items:center;gap:36px;}
+.mq-track span::after{content:'·';color:var(--a);font-size:16px;}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION BASE */
+section{padding:140px 48px;}
+.s-label{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--a);margin-bottom:64px;display:flex;align-items:center;gap:14px;}
+.s-label::before{content:attr(data-n);color:var(--fg3);}
+.s-label::after{content:'';flex:1;max-width:60px;height:1px;background:var(--line2);}
+
+/* CLIENTS MARQUEE */
+#clients{padding:64px 0;background:var(--bg3);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;}
+.cl-head{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--fg3);text-align:center;margin-bottom:40px;padding:0 48px;}
+.cl-rows{display:flex;flex-direction:column;gap:0;}
+.cl-row{display:flex;overflow:hidden;border-top:1px solid var(--line);}
+.cl-row:last-child{border-bottom:1px solid var(--line);}
+.cl-track{display:flex;white-space:nowrap;will-change:transform;}
+.cl-track--fwd{animation:clFwd 38s linear infinite;}
+.cl-track--rev{animation:clRev 44s linear infinite;}
+.cl-rows:hover .cl-track{animation-play-state:paused;}
+.cl-chip{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-right:1px solid var(--line);font-family:var(--f1);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fg2);transition:color .2s,background .2s;cursor:none;flex-shrink:0;}
+.cl-chip:hover{color:var(--a);background:rgba(212,0,42,.04);}
+.cl-badge{font-family:var(--f1);font-size:8px;font-weight:600;letter-spacing:.1em;padding:2px 7px;border:1px solid var(--line2);color:var(--fg3);transition:border-color .2s,color .2s;}
+.cl-chip:hover .cl-badge{border-color:var(--a);color:var(--a);}
+@keyframes clFwd{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes clRev{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+
+/* MANIFESTO — with Higgsfield video panel */
+#manifesto{background:var(--bg);border-bottom:1px solid var(--line);padding:0;}
+.mf-wrap{display:grid;grid-template-columns:1fr 1fr;min-height:560px;}
+.mf-text{padding:100px 64px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--line);}
+.mf-body{font-family:var(--f1);font-weight:800;font-size:clamp(32px,4.5vw,68px);line-height:1.05;letter-spacing:-.025em;}
+.mf-body em{font-style:italic;color:var(--a);}
+.mf-sub{font-family:var(--f2);font-size:14px;line-height:1.85;color:var(--fg2);max-width:380px;margin-top:32px;}
+/* SplitType word spans — correct initial state for GSAP reveal */
+.mf-body .word{display:inline-block;}
+.mf-video-panel{position:relative;overflow:hidden;background:var(--fg);}
+.mf-vid{width:100%;height:100%;object-fit:cover;opacity:.55;display:block;}
+.mf-vid-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,0,42,.15),rgba(27,58,107,.1),transparent);}
+
+/* SERVICES — vertical accordion */
+#services{background:var(--bg2);border-bottom:1px solid var(--line);}
+.sv-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:72px;}
+.sv-title{font-family:var(--f1);font-weight:800;font-size:clamp(32px,4vw,64px);line-height:1.05;letter-spacing:-.025em;}
+.sv-title em{font-style:italic;color:var(--a);}
+.sv-note{font-family:var(--f2);font-size:13px;color:var(--fg2);max-width:280px;text-align:right;}
+.sv-acc{border-top:1px solid var(--line2);}
+.sv-row{border-bottom:1px solid var(--line);}
+.sv-trigger{display:grid;grid-template-columns:72px 1fr 1fr auto;gap:32px;align-items:center;padding:28px 0;cursor:none;transition:color .2s;}
+.sv-trigger:hover{color:var(--a);}
+.sv-num{font-family:var(--f1);font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--a);}
+.sv-name{font-family:var(--f1);font-weight:700;font-size:clamp(18px,2vw,28px);letter-spacing:-.01em;line-height:1.2;transition:color .2s;}
+.sv-row.open .sv-name{color:var(--a);}
+.sv-short{font-family:var(--f2);font-size:13px;color:var(--fg2);}
+.sv-ico{font-family:var(--f1);font-size:22px;font-weight:400;color:var(--a);transition:transform .35s var(--ease);flex-shrink:0;}
+.sv-row.open .sv-ico{transform:rotate(45deg);}
+.sv-body{max-height:0;overflow:hidden;transition:max-height .5s var(--ease);}
+.sv-body.open{max-height:280px;}
+.sv-body-inner{display:grid;grid-template-columns:72px 1fr 1fr;gap:32px;padding:0 0 36px;}
+.sv-long{font-family:var(--f2);font-size:14px;line-height:1.85;color:var(--fg2);}
+.sv-tags-wrap{display:flex;flex-wrap:wrap;gap:6px;padding-top:4px;}
+.sv-tag{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:6px 12px;border:1px solid var(--line2);color:var(--fg2);}
+
+/* STATS — dark flip */
+#stats{background:var(--fg);border-bottom:1px solid rgba(248,246,241,.1);padding:100px 48px;}
+.st-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(248,246,241,.08);border:1px solid rgba(248,246,241,.08);}
+.st-cell{background:var(--fg);padding:56px 44px;position:relative;overflow:hidden;}
+.st-cell::after{content:'';position:absolute;bottom:0;left:44px;right:44px;height:2px;background:var(--a);transform:scaleX(0);transition:transform .8s var(--ease);}
+.st-cell.lit::after{transform:scaleX(1);}
+.st-n{font-family:var(--f1);font-weight:800;font-size:clamp(52px,6vw,88px);line-height:1;letter-spacing:-.04em;color:var(--bg);margin-bottom:10px;}
+.st-n sub{font-size:.5em;vertical-align:baseline;color:rgba(248,246,241,.4);}
+.st-l{font-family:var(--f1);font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,246,241,.35);}
+
+/* TESTIMONIALS */
+#testimonials{background:var(--bg);border-bottom:1px solid var(--line);}
+.tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:64px;background:var(--line);grid-template-rows:auto auto;}
+.tm-card{background:var(--bg);padding:60px 52px;border-left:2px solid transparent;transition:border-color .4s;position:relative;}
+.tm-card:hover{border-left-color:var(--a);}
+.tm-qm{font-family:var(--f1);font-size:120px;font-weight:800;line-height:1;color:var(--a);opacity:.07;position:absolute;top:20px;left:44px;}
+.tm-text{font-family:var(--f1);font-weight:600;font-size:clamp(19px,1.9vw,28px);line-height:1.45;letter-spacing:-.01em;color:var(--fg);margin-bottom:28px;position:relative;z-index:1;}
+.tm-who{font-family:var(--f1);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);line-height:1.7;}
+.tm-who strong{color:var(--fg2);display:block;}
+
+/* WORK */
+#work{background:var(--bg2);border-bottom:1px solid var(--line);padding:140px 0 0;}
+.wk-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;padding:0 48px;}
+.wk-title{font-family:var(--f1);font-weight:800;font-size:clamp(32px,4vw,64px);line-height:1.05;letter-spacing:-.025em;}
+.wk-title em{font-style:italic;color:var(--a);}
+.wk-all{font-family:var(--f1);font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fg2);display:flex;align-items:center;gap:10px;padding-bottom:3px;border-bottom:1px solid var(--line2);transition:color .2s,border-color .2s;}
+.wk-all:hover{color:var(--a);border-color:var(--a);}
+.wk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;}
+.wk-card{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--bg3);cursor:none;transition:box-shadow .4s,transform .4s;}
+.wk-card:hover{box-shadow:0 28px 64px rgba(14,13,11,.18);transform:translateY(-4px);z-index:2;}
+.wk-img{position:absolute;inset:0;overflow:hidden;}
+.wk-img img{transition:transform .8s var(--ease);}
+.wk-card:hover .wk-img img{transform:scale(1.07);}
+.wk-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(248,246,241,.97) 0%,rgba(248,246,241,.1) 50%,transparent 100%);}
+.wk-num{position:absolute;top:20px;right:20px;font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.15em;color:var(--fg2);}
+.wk-info{position:absolute;bottom:0;left:0;right:0;padding:26px;transform:translateY(6px);transition:transform .35s;}
+.wk-card:hover .wk-info{transform:none;}
+.wk-tag{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--a);margin-bottom:6px;}
+.wk-name{font-family:var(--f1);font-weight:700;font-size:20px;line-height:1.25;letter-spacing:-.01em;color:var(--fg);}
+
+/* PROCESS */
+#process{background:var(--bg);border-bottom:1px solid var(--line);}
+.pr-title{font-family:var(--f1);font-weight:800;font-size:clamp(32px,4vw,60px);line-height:1.05;letter-spacing:-.025em;max-width:560px;margin-bottom:88px;}
+.pr-title em{font-style:italic;color:var(--a);}
+.pr-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);}
+.pr-step{background:var(--bg);padding:44px 32px;border-top:2px solid transparent;transition:border-color .3s;cursor:none;}
+.pr-step:hover{border-top-color:var(--a);}
+.pr-n{font-family:var(--f1);font-weight:800;font-size:68px;line-height:1;letter-spacing:-.04em;color:var(--fg3);margin-bottom:24px;transition:color .3s;}
+.pr-step:hover .pr-n{color:var(--a);}
+.pr-t{font-family:var(--f1);font-weight:700;font-size:21px;line-height:1.25;margin-bottom:12px;}
+.pr-d{font-family:var(--f2);font-size:13px;line-height:1.8;color:var(--fg2);}
+
+/* TEAM */
+#team{background:var(--bg2);border-bottom:1px solid var(--line);}
+.tm-head{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-bottom:64px;align-items:end;}
+.tm-ht{font-family:var(--f1);font-weight:800;font-size:clamp(32px,4vw,60px);line-height:1.05;letter-spacing:-.025em;}
+.tm-ht em{font-style:italic;color:var(--a);}
+.tm-hp{font-family:var(--f2);font-size:14px;line-height:1.85;color:var(--fg2);}
+.tm-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);}
+.tm-member{background:var(--bg2);padding:38px 30px;border-top:2px solid transparent;transition:border-color .3s,background .3s;cursor:none;}
+.tm-member:hover{border-top-color:var(--a);background:var(--bg);}
+.tm-av{width:50px;height:50px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-family:var(--f1);font-size:13px;font-weight:800;color:var(--fg2);margin-bottom:20px;transition:border-color .3s,color .3s;}
+.tm-member:hover .tm-av{border-color:var(--a);color:var(--a);}
+.tm-name{font-family:var(--f1);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+.tm-role{font-family:var(--f2);font-size:13px;color:var(--fg2);margin-bottom:8px;}
+.tm-xp{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--a);}
+
+/* TECH */
+#tech{background:var(--bg);border-bottom:1px solid var(--line);}
+.tc-wrap{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start;}
+.tc-left h2{font-family:var(--f1);font-weight:800;font-size:clamp(28px,3.5vw,52px);line-height:1.1;letter-spacing:-.02em;margin-bottom:18px;}
+.tc-left h2 em{font-style:italic;color:var(--a);}
+.tc-left p{font-family:var(--f2);font-size:13px;line-height:1.8;color:var(--fg2);max-width:260px;}
+.tc-tags{display:flex;flex-wrap:wrap;gap:8px;padding-top:6px;}
+.tc-tag{font-family:var(--f1);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--line2);color:var(--fg2);transition:border-color .2s,color .2s,background .2s;cursor:none;}
+.tc-tag:hover{border-color:var(--a);color:var(--a);background:rgba(212,0,42,.04);}
+
+/* FAQ */
+#faq{background:var(--bg2);border-bottom:1px solid var(--line);}
+.fq-head{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-bottom:64px;align-items:end;}
+.fq-ht{font-family:var(--f1);font-weight:800;font-size:clamp(32px,4vw,56px);line-height:1.1;letter-spacing:-.025em;}
+.fq-hp{font-family:var(--f2);font-size:14px;line-height:1.85;color:var(--fg2);}
+.fq-list{border-top:1px solid var(--line);}
+.fq-item{border-bottom:1px solid var(--line);}
+.fq-q{display:flex;justify-content:space-between;align-items:center;padding:26px 0;font-family:var(--f2);font-size:16px;color:var(--fg);gap:24px;cursor:none;transition:color .2s;}
+.fq-q:hover{color:var(--a);}
+.fq-t{font-family:var(--f1);font-size:18px;font-weight:600;color:var(--a);flex-shrink:0;width:22px;text-align:center;transition:transform .3s;}
+.fq-item.open .fq-t{transform:rotate(45deg);}
+.fq-a{max-height:0;overflow:hidden;transition:max-height .45s var(--ease);}
+.fq-a-inner{font-family:var(--f2);font-size:14px;line-height:1.85;color:var(--fg2);padding-bottom:26px;max-width:700px;}
+.fq-item.open .fq-a{max-height:220px;}
+
+/* CONTACT — dark flip */
+#contact{background:var(--fg);padding:140px 48px;border-bottom:1px solid rgba(248,246,241,.08);position:relative;overflow:hidden;}
+#contact::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(212,0,42,.07) 0%,transparent 65%);pointer-events:none;}
+.ct-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.ct-pre{font-family:var(--f1);font-size:10px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:rgba(212,0,42,.9);margin-bottom:28px;}
+.ct-title{font-family:var(--f1);font-weight:800;font-size:clamp(38px,5vw,80px);line-height:.92;letter-spacing:-.035em;color:var(--bg);margin-bottom:36px;}
+.ct-title .word{white-space:nowrap;display:inline-block;}
+.ct-title em{font-style:italic;font-weight:300;opacity:.4;}
+.btn-cta{display:inline-flex;align-items:center;gap:16px;font-family:var(--f1);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fg);background:var(--bg);padding:18px 48px;transition:background .2s,color .2s,gap .3s;cursor:none;}
+.btn-cta:hover{background:var(--a);color:var(--bg);gap:24px;}
+.ct-email{display:block;font-family:var(--f1);font-size:12px;font-weight:600;letter-spacing:.12em;color:rgba(248,246,241,.3);margin-top:28px;transition:color .2s;}
+.ct-email:hover{color:rgba(248,246,241,.7);}
+/* Inline form (on dark flip bg) */
+.ct-form-eyebrow{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(248,246,241,.35);margin-bottom:36px;display:flex;align-items:center;gap:14px;}
+.ct-form-eyebrow::before{content:'';width:32px;height:1px;background:rgba(248,246,241,.15);}
+.ct-field{margin-bottom:24px;}
+.ct-field label{font-family:var(--f1);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,246,241,.4);display:block;margin-bottom:10px;}
+.ct-field input,.ct-field textarea{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(248,246,241,.15);color:var(--bg);font-family:var(--f2);font-size:14px;padding:12px 0;outline:none;transition:border-color .2s;resize:none;}
+.ct-field input::placeholder,.ct-field textarea::placeholder{color:rgba(248,246,241,.25);}
+.ct-field input:focus,.ct-field textarea:focus{border-bottom-color:var(--a);}
+.ct-submit{width:100%;font-family:var(--f1);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;background:var(--a);color:var(--bg);border:none;padding:18px;cursor:none;transition:background .2s,opacity .2s;margin-top:8px;}
+.ct-submit:hover{background:#ff1a1a;}
+.ct-form-note{font-family:var(--f2);font-size:11px;color:rgba(248,246,241,.25);text-align:center;margin-top:14px;}
+
+/* FOOTER */
+footer{padding:44px 48px;background:var(--bg);border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;}
+.ft-logo{font-family:var(--f1);font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;}
+.ft-copy{text-align:center;font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);}
+.ft-links{display:flex;gap:24px;justify-content:flex-end;list-style:none;}
+.ft-links a{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fg3);transition:color .2s;}
+.ft-links a:hover{color:var(--a);}
+
+/* VERSION SWITCH */
+.vsw{position:fixed;bottom:28px;right:28px;z-index:5000;display:flex;flex-direction:column;gap:6px;}
+.vsw a{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:9px 14px;border:1px solid var(--line2);background:var(--bg2);color:var(--fg3);transition:border-color .2s,color .2s;cursor:none;white-space:nowrap;}
+.vsw a.on,.vsw a:hover{border-color:var(--a);color:var(--a);}
+
+/* ECOSYSTEM */
+#ecosystem{background:var(--bg);padding:80px 0;border-bottom:1px solid var(--line);}
+.eco-inner{max-width:100%;margin:0;}
+.eco-label{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--fg3);margin-bottom:48px;text-align:center;}
+.eco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.eco-card{background:var(--bg);padding:60px 52px;position:relative;overflow:hidden;transition:background .3s;}
+.eco-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--a);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease);}
+.eco-card:hover{background:var(--bg2);}
+.eco-card:hover::before{transform:scaleX(1);}
+.eco-card--mid{border-left:1px solid var(--line);border-right:1px solid var(--line);}
+.eco-name{font-family:var(--f1);font-weight:800;font-size:clamp(32px,4vw,60px);line-height:.95;letter-spacing:-.03em;color:var(--fg);margin-bottom:10px;}
+.eco-country{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3);margin-bottom:28px;}
+.eco-status{font-family:var(--f1);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--a);margin-bottom:14px;}
+.eco-desc{font-family:var(--f2);font-size:13px;color:var(--fg2);line-height:1.7;max-width:320px;}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateX(-24px);}
+.rv.in{opacity:1;transform:none;transition:opacity .75s var(--ease),transform .75s var(--ease);}
+.rv.d1{transition-delay:.1s;}.rv.d2{transition-delay:.2s;}.rv.d3{transition-delay:.3s;}.rv.d4{transition-delay:.4s;}
+.rv-up{opacity:0;transform:translateY(28px);}
+.rv-up.in{opacity:1;transform:none;transition:opacity .75s var(--ease),transform .75s var(--ease);}
+
+/* LANG SWITCHER */
+.lang-sw{display:flex;gap:4px;margin-left:24px;}
+.lang-sw button{font-family:var(--f1);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line2);background:transparent;color:var(--fg3);padding:6px 10px;cursor:none;transition:all .2s;}
+.lang-sw button.active,.lang-sw button:hover{background:var(--a);border-color:var(--a);color:var(--bg);}
+
+/* MODAL */
+#modal-overlay{position:fixed;inset:0;z-index:99998;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s;}
+#modal-overlay.open{opacity:1;visibility:visible;}
+.modal-bg{position:absolute;inset:0;background:rgba(14,13,11,.7);backdrop-filter:blur(24px);cursor:none;}
+.modal-box{position:relative;z-index:1;width:100%;max-width:520px;margin:0 20px;background:var(--bg);border:1px solid var(--line2);padding:52px 48px 48px;transform:translateY(32px) scale(.97);transition:transform .4s var(--ease);box-shadow:0 40px 80px rgba(14,13,11,.15);}
+#modal-overlay.open .modal-box{transform:none;}
+.modal-close{position:absolute;top:20px;right:20px;background:transparent;border:none;color:var(--fg3);font-size:20px;cursor:none;width:36px;height:36px;display:flex;align-items:center;justify-content:center;transition:color .2s;}
+.modal-close:hover{color:var(--fg);}
+.modal-eyebrow{font-family:var(--f1);font-size:9px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--a);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.modal-eyebrow::before{content:'';width:24px;height:1px;background:var(--a);}
+.modal-title{font-family:var(--f1);font-weight:800;font-size:clamp(24px,4vw,36px);line-height:1.1;letter-spacing:-.02em;margin-bottom:8px;}
+.modal-sub{font-family:var(--f2);font-size:13px;color:var(--fg2);margin-bottom:36px;}
+.modal-field{margin-bottom:20px;}
+.modal-field label{font-family:var(--f1);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fg3);display:block;margin-bottom:8px;}
+.modal-field input,.modal-field textarea{width:100%;background:var(--bg2);border:1px solid var(--line2);color:var(--fg);font-family:var(--f2);font-size:14px;padding:14px 16px;outline:none;transition:border-color .2s;resize:none;}
+.modal-field input::placeholder,.modal-field textarea::placeholder{color:var(--fg3);}
+.modal-field input:focus,.modal-field textarea:focus{border-color:var(--a);}
+.modal-submit{width:100%;font-family:var(--f1);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;background:var(--fg);color:var(--bg);border:none;padding:18px;cursor:none;transition:background .2s,color .2s;margin-top:8px;}
+.modal-submit:hover{background:var(--a);color:var(--bg);}
+.modal-note{font-family:var(--f2);font-size:11px;color:var(--fg3);text-align:center;margin-top:16px;}
+
+/* CALCULATOR */
+#calculator{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:start;}
+.calc-left{padding-right:64px;border-right:1px solid var(--line);}
+.calc-right{padding-left:64px;}
+.calc-field{margin-bottom:28px;}
+.calc-field label{font-family:var(--f1);font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3);display:block;margin-bottom:10px;}
+.calc-field textarea{width:100%;height:110px;background:var(--bg);border:1px solid var(--line2);color:var(--fg);font-family:var(--f2);font-size:14px;padding:16px;resize:none;outline:none;transition:border-color .2s;}
+.calc-field textarea::placeholder{color:var(--fg3);}
+.calc-field textarea:focus{border-color:var(--a);}
+.calc-select-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.calc-sel{width:100%;background:var(--bg);border:1px solid var(--line2);color:var(--fg);font-family:var(--f2);font-size:13px;padding:13px 16px;outline:none;cursor:none;transition:border-color .2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.calc-sel:focus{border-color:var(--a);}
+.calc-result{background:var(--bg);border:1px solid var(--line2);padding:36px 32px;margin-bottom:28px;min-height:200px;}
+.calc-result-label{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3);margin-bottom:24px;}
+.calc-currency-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;}
+.calc-currency{text-align:center;}
+.calc-currency-code{font-family:var(--f1);font-size:9px;font-weight:600;letter-spacing:.18em;color:var(--fg3);margin-bottom:6px;}
+.calc-currency-val{font-family:var(--f1);font-weight:800;font-size:clamp(16px,2.5vw,24px);letter-spacing:-.02em;color:var(--fg);line-height:1.1;}
+.calc-currency-val.usd{color:var(--a);}
+.calc-timeline{font-family:var(--f2);font-size:13px;color:var(--fg2);border-top:1px solid var(--line);padding-top:20px;margin-top:4px;}
+.calc-timeline span{color:var(--fg);font-weight:600;}
+.calc-kp-btn{width:100%;font-family:var(--f1);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;background:transparent;border:1px solid var(--line2);color:var(--fg2);padding:16px;cursor:none;transition:all .25s;margin-bottom:16px;}
+.calc-kp-btn:hover{border-color:var(--a);color:var(--a);}
+.calc-apply-btn{width:100%;font-family:var(--f1);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;background:var(--fg);border:none;color:var(--bg);padding:18px;cursor:none;transition:background .2s,color .2s;}
+.calc-apply-btn:hover{background:var(--a);}
+.calc-kp-output{display:none;background:var(--bg2);border:1px solid var(--line);padding:28px;margin-bottom:16px;font-family:var(--f2);font-size:13px;line-height:1.9;color:var(--fg2);white-space:pre-wrap;}
+.calc-kp-output.show{display:block;}
+.calc-kp-lang{display:flex;gap:8px;margin-bottom:16px;}
+.calc-kp-lang button{font-family:var(--f1);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--line2);background:transparent;color:var(--fg3);padding:6px 12px;cursor:none;transition:all .2s;}
+.calc-kp-lang button.active{background:var(--a);border-color:var(--a);color:var(--bg);}
+
+/* MOBILE */
+@media(max-width:900px){
+  nav{padding:0 20px;height:60px;}
+  .nav-links{display:none;}
+  .lang-sw{margin-left:8px;}
+  #hero{padding:60px 20px 60px;min-height:100svh;}
+  .hero-sub-row{grid-template-columns:1fr 1fr;}
+  section{padding:80px 20px;}
+  .calc-grid{grid-template-columns:1fr;}
+  .calc-left{padding-right:0;border-right:none;border-bottom:1px solid var(--line);padding-bottom:48px;margin-bottom:48px;}
+  .calc-right{padding-left:0;}
+  .calc-currency-row{grid-template-columns:1fr;gap:12px;}
+  .modal-box{padding:40px 28px 36px;}
+  .vsw{top:auto;bottom:20px;right:20px;}
+  .eco-grid{grid-template-columns:1fr;}
+  .eco-card--mid{border-left:none;border-right:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .tm-row{grid-template-columns:1fr 1fr;}
+  .pr-grid{grid-template-columns:1fr 1fr;gap:16px;}
+  .fq-head{flex-direction:column;gap:24px;}
+  .sv-header-row{flex-direction:column;gap:16px;}
+  .calc-select-row{grid-template-columns:1fr;}
+  .ct-inner{grid-template-columns:1fr;gap:60px;}
+}
+@media(max-width:560px){
+  .hero-sub-row{grid-template-columns:1fr;}
+  .tm-row{grid-template-columns:1fr;}
+  .pr-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div id="loader">
+  <div class="ld-logo">WAVELABS</div>
+  <div class="ld-bar"></div>
+  <div class="ld-n" id="ldN">0%</div>
+</div>
+
+<div class="vsw">
+  <a href="index.html">◐ Dark</a>
+  <a href="index-light.html" class="on">◑ Light</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">WL°</a>
+  <ul class="nav-links">
+    <li><a href="#services" data-i18n="nav.services">Services</a></li>
+    <li><a href="#work" data-i18n="nav.work">Work</a></li>
+    <li><a href="#process" data-i18n="nav.process">Process</a></li>
+    <li><a href="#team" data-i18n="nav.team">Team</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="lang-sw">
+      <button onclick="setLang('en')" id="ln-en" class="active">EN</button>
+      <button onclick="setLang('ru')" id="ln-ru">RU</button>
+      <button onclick="setLang('uz')" id="ln-uz">UZ</button>
+    </div>
+    <button class="nav-cta open-modal" data-i18n="nav.cta">Let's Talk</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-video-wrap">
+    <video id="heroVid" autoplay muted loop playsinline></video>
+    <div class="hero-video-overlay"></div>
+  </div>
+  <div class="hero-dots"></div>
+  <div class="hero-body">
+    <div class="hero-eyebrow"><span class="ey-txt"></span></div>
+    <h1 class="hero-title" id="heroTitle">Intelligence,<br><em>engineered.</em></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">We architect AI systems, enterprise software, and data infrastructure that close deals, automate complex operations, and deliver measurable ROI. Trusted by enterprise clients across Central Asia and beyond.</p>
+    <div class="hero-cta-bar">
+      <button class="btn-cta open-modal" id="ctaBtn" data-i18n="cta.main">Start a project <span>→</span></button>
+      <a href="#work" style="font-family:var(--f1);font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--fg2);border-bottom:1px solid var(--line2);padding-bottom:2px;">See our work</a>
+    </div>
+  </div>
+  <div class="hero-bottom-bar" style="grid-template-columns:repeat(4,1fr);">
+    <div class="hbb-col"><div class="hbb-label">Location</div><div class="hbb-val">Tashkent, Uzbekistan<br>Central Asia</div></div>
+    <div class="hbb-col"><div class="hbb-label">Specialisation</div><div class="hbb-val">AI/ML · Data · Software</div></div>
+    <div class="hbb-col"><div class="hbb-label">Accreditation</div><div class="hbb-val">IT Park · AIFC<br>Astana Hub</div></div>
+    <div class="hbb-col"><div class="hbb-label">Status</div><div class="hbb-val" style="color:var(--a)">● Accepting Enterprise Clients</div></div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hs-line"></div>
+    <span class="hs-txt">Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq-wrap">
+  <div class="mq-track">
+    <span>AI Development</span><span>Machine Learning</span><span>Custom Software</span>
+    <span>Data Engineering</span><span>Digital Transformation</span><span>Product Design</span>
+    <span>Cloud Architecture</span><span>NLP & LLMs</span>
+    <span>AI Development</span><span>Machine Learning</span><span>Custom Software</span>
+    <span>Data Engineering</span><span>Digital Transformation</span><span>Product Design</span>
+    <span>Cloud Architecture</span><span>NLP & LLMs</span>
+  </div>
+</div>
+
+<!-- CLIENTS -->
+<section id="clients">
+  <div class="cl-head">Trusted by leading companies across Central Asia &amp; beyond</div>
+  <div class="cl-rows">
+    <div class="cl-row">
+      <div class="cl-track cl-track--fwd">
+        <span class="cl-chip">Jusan Bank<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Air Astana<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Kolesa Group<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">ForteBank<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Freedom Finance<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Choco<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">BI Group<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Kcell<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Beeline KZ<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Magnum<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Jusan Bank<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Air Astana<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Kolesa Group<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">ForteBank<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Freedom Finance<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Choco<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">BI Group<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Kcell<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Beeline KZ<span class="cl-badge">KZ</span></span>
+        <span class="cl-chip">Magnum<span class="cl-badge">KZ</span></span>
+      </div>
+    </div>
+    <div class="cl-row">
+      <div class="cl-track cl-track--rev">
+        <span class="cl-chip">Uzum<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Humans<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Payme<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Click<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Alif Bank<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Artel<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Ucell<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Orient Group<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Hamkorbank<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Zoomrad<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Uzum<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Humans<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Payme<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Click<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Alif Bank<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Artel<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Ucell<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Orient Group<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Hamkorbank<span class="cl-badge">UZ</span></span>
+        <span class="cl-chip">Zoomrad<span class="cl-badge">UZ</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section id="ecosystem">
+  <div class="eco-inner">
+    <div class="eco-label">VERIFIED ECOSYSTEM RESIDENT</div>
+    <div class="eco-grid">
+      <div class="eco-card">
+        <div class="eco-name">IT PARK</div>
+        <div class="eco-country">Uzbekistan</div>
+        <div class="eco-status">✓ Official Resident</div>
+        <div class="eco-desc">National technology innovation hub. Tax benefits, legal infrastructure, and access to the region's top engineering talent.</div>
+      </div>
+      <div class="eco-card eco-card--mid">
+        <div class="eco-name">AIFC</div>
+        <div class="eco-country">Kazakhstan</div>
+        <div class="eco-status">✓ Official Resident</div>
+        <div class="eco-desc">Astana International Financial Centre. Internationally-recognised jurisdiction with English common law and zero corporate tax.</div>
+      </div>
+      <div class="eco-card">
+        <div class="eco-name">ASTANA HUB</div>
+        <div class="eco-country">Kazakhstan</div>
+        <div class="eco-status">✓ Official Resident</div>
+        <div class="eco-desc">International tech startup hub. Gateway to Central Asian markets and preferred partner ecosystem.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO — with Higgsfield video -->
+<section id="manifesto">
+  <div class="mf-wrap">
+    <div class="mf-text">
+      <div class="s-label rv" data-n="01">About</div>
+      <div class="mf-body" id="mfBody">
+        We don't build features — we build <em>competitive advantages</em> that compound over time.
+      </div>
+      <p class="mf-sub rv">Resident of IT Park Uzbekistan, AIFC, and Astana Hub. 50+ enterprise clients. AI systems that don't just work — they win markets.</p>
+    </div>
+    <div class="mf-video-panel">
+      <video class="mf-vid" id="mfVid" autoplay muted loop playsinline></video>
+      <div class="mf-vid-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES — accordion -->
+<section id="services">
+  <div class="sv-header">
+    <h2 class="sv-title rv">What we <em>engineer</em></h2>
+    <p class="sv-note rv">End-to-end solutions from strategy to deployment</p>
+  </div>
+  <div class="sv-acc rv-up">
+    <div class="sv-row">
+      <div class="sv-trigger"><span class="sv-num">01</span><span class="sv-name">AI / ML Development</span><span class="sv-short">Custom models, neural networks, automation</span><span class="sv-ico">+</span></div>
+      <div class="sv-body"><div class="sv-body-inner"><span></span><div class="sv-long">Custom machine learning models, neural networks, recommendation systems, and AI-powered automation built for your specific domain and data. From prototype to production ML systems.</div><div class="sv-tags-wrap"><span class="sv-tag">PyTorch</span><span class="sv-tag">TensorFlow</span><span class="sv-tag">LLMs</span><span class="sv-tag">MLOps</span></div></div></div>
+    </div>
+    <div class="sv-row">
+      <div class="sv-trigger"><span class="sv-num">02</span><span class="sv-name">Custom Software</span><span class="sv-short">Scalable systems, APIs, enterprise platforms</span><span class="sv-ico">+</span></div>
+      <div class="sv-body"><div class="sv-body-inner"><span></span><div class="sv-long">Scalable backend systems, APIs, and enterprise platforms engineered with precision and built to last years, not months. Architecture that doesn't become a liability.</div><div class="sv-tags-wrap"><span class="sv-tag">Python</span><span class="sv-tag">Go</span><span class="sv-tag">Node.js</span><span class="sv-tag">Microservices</span></div></div></div>
+    </div>
+    <div class="sv-row">
+      <div class="sv-trigger"><span class="sv-num">03</span><span class="sv-name">Data Engineering</span><span class="sv-short">Pipelines, warehouses, real-time processing</span><span class="sv-ico">+</span></div>
+      <div class="sv-body"><div class="sv-body-inner"><span></span><div class="sv-long">Data pipelines, warehouses, analytics platforms, and real-time processing infrastructure that turns raw data into clear decisions. The foundation everything else is built on.</div><div class="sv-tags-wrap"><span class="sv-tag">Kafka</span><span class="sv-tag">Spark</span><span class="sv-tag">dbt</span><span class="sv-tag">Airflow</span></div></div></div>
+    </div>
+    <div class="sv-row">
+      <div class="sv-trigger"><span class="sv-num">04</span><span class="sv-name">Digital Products</span><span class="sv-short">Mobile & web apps with AI at the core</span><span class="sv-ico">+</span></div>
+      <div class="sv-body"><div class="sv-body-inner"><span></span><div class="sv-long">Mobile and web applications designed with intelligence at their core. Products that learn, adapt, and grow with your users. Flutter for mobile, React for web.</div><div class="sv-tags-wrap"><span class="sv-tag">Flutter</span><span class="sv-tag">React</span><span class="sv-tag">iOS</span><span class="sv-tag">Android</span></div></div></div>
+    </div>
+    <div class="sv-row">
+      <div class="sv-trigger"><span class="sv-num">05</span><span class="sv-name">Digital Transformation</span><span class="sv-short">Legacy to AI-first, end-to-end</span><span class="sv-ico">+</span></div>
+      <div class="sv-body"><div class="sv-body-inner"><span></span><div class="sv-long">Full-spectrum consulting and implementation. We take legacy organisations and rebuild them for the AI era. Strategy, architecture, delivery, and change management.</div><div class="sv-tags-wrap"><span class="sv-tag">Strategy</span><span class="sv-tag">Architecture</span><span class="sv-tag">Change Mgmt</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="st-grid">
+    <div class="st-cell rv-up"><div class="st-n"><span class="cnt" data-v="50">0</span><sub>+</sub></div><div class="st-l">Enterprise Clients</div></div>
+    <div class="st-cell rv-up d1"><div class="st-n"><span class="cnt" data-v="340">0</span><sub>%</sub></div><div class="st-l">Avg. ROI Delivered</div></div>
+    <div class="st-cell rv-up d2"><div class="st-n"><span class="cnt" data-v="2">0</span><sub>.5×</sub></div><div class="st-l">Revenue Multiplier</div></div>
+    <div class="st-cell rv-up d3"><div class="st-n"><span class="cnt" data-v="100">0</span><sub>%</sub></div><div class="st-l">On-Time Delivery</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="s-label rv" data-n="03.5">What clients say</div>
+  <div class="tm-grid rv-up">
+    <div class="tm-card"><div class="tm-qm">"</div><p class="tm-text">They didn't just build a credit scoring model — they redesigned our entire underwriting logic. Default rates dropped 34% in the first quarter post-launch.</p><div class="tm-who"><strong>Head of Digital Products</strong>Fintech · Almaty, Kazakhstan</div></div>
+    <div class="tm-card"><div class="tm-qm">"</div><p class="tm-text">Our data infrastructure went from batch-daily to real-time in eight weeks. WaveLabs is the only team I've seen match Silicon Valley execution speed in this region.</p><div class="tm-who"><strong>CTO</strong>Logistics Platform · Tashkent, Uzbekistan</div></div>
+    <div class="tm-card"><div class="tm-qm">"</div><p class="tm-text">We came in with a $2M contract and a 90-day deadline. They delivered. The AI recommendation engine now drives 38% of total GMV. That's not a vendor — that's a partner.</p><div class="tm-who"><strong>CEO</strong>E-commerce Marketplace · Central Asia</div></div>
+    <div class="tm-card"><div class="tm-qm">"</div><p class="tm-text">Three previous agencies failed at this integration. WaveLabs scoped it in a day, shipped in six weeks, and the system has had zero downtime in nine months.</p><div class="tm-who"><strong>VP Engineering</strong>Enterprise SaaS · Astana, Kazakhstan</div></div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="wk-head">
+    <h2 class="wk-title rv">Selected <em>work</em></h2>
+    <a href="#" class="wk-all rv">View all projects →</a>
+  </div>
+  <div class="wk-grid">
+    <div class="wk-card"><div class="wk-img"><img id="img-1" src="" alt="AI Credit Scoring"></div><div class="wk-overlay"></div><div class="wk-num">001</div><div class="wk-info"><div class="wk-tag">AI Platform · Fintech</div><div class="wk-name">Intelligent Credit<br>Scoring System</div></div></div>
+    <div class="wk-card"><div class="wk-img"><img id="img-2" src="" alt="Semantic Search"></div><div class="wk-overlay"></div><div class="wk-num">002</div><div class="wk-info"><div class="wk-tag">NLP · E-commerce</div><div class="wk-name">Semantic Search<br>&amp; Recommendation</div></div></div>
+    <div class="wk-card"><div class="wk-img"><img id="img-3" src="" alt="Supply Chain"></div><div class="wk-overlay"></div><div class="wk-num">003</div><div class="wk-info"><div class="wk-tag">Data Engineering · Logistics</div><div class="wk-name">Real-Time Supply<br>Chain Intelligence</div></div></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="s-label rv" data-n="04">How we work</div>
+  <h2 class="pr-title rv">From idea to <em>production</em> — four precise stages.</h2>
+  <div class="pr-row">
+    <div class="pr-step rv-up"><div class="pr-n">01</div><div class="pr-t">Discovery &<br>Architecture</div><p class="pr-d">We dissect your domain, map your data landscape, and design a system architecture that solves the actual problem.</p></div>
+    <div class="pr-step rv-up d1"><div class="pr-n">02</div><div class="pr-t">Engineering<br>Sprint</div><p class="pr-d">Rapid, iterative development with weekly deliverables. No 3-month black boxes. You see progress every Friday.</p></div>
+    <div class="pr-step rv-up d2"><div class="pr-n">03</div><div class="pr-t">Testing &<br>Calibration</div><p class="pr-d">We benchmark against real-world data and calibrate until performance meets the spec.</p></div>
+    <div class="pr-step rv-up d3"><div class="pr-n">04</div><div class="pr-t">Deploy &<br>Scale</div><p class="pr-d">Production launch, monitoring, and ongoing optimisation. We stay in the system with you.</p></div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="tm-head">
+    <div>
+      <div class="s-label rv" data-n="05">The team</div>
+      <h2 class="tm-ht rv">C-Level execution,<br><em>delivered directly</em></h2>
+    </div>
+    <p class="tm-hp rv">No middlemen. You work directly with the principals who architect, build, and ship your system.</p>
+  </div>
+  <div class="tm-row">
+    <div class="tm-member rv-up"><div class="tm-av">AB</div><div class="tm-name">Arslon B.</div><div class="tm-role">Chief AI Officer</div><div class="tm-xp">8 yrs · 20+ enterprise models</div></div>
+    <div class="tm-member rv-up d1"><div class="tm-av">JT</div><div class="tm-name">Jasur T.</div><div class="tm-role">Chief Technology Officer</div><div class="tm-xp">10 yrs · $50M+ systems built</div></div>
+    <div class="tm-member rv-up d2"><div class="tm-av">KN</div><div class="tm-name">Kamola N.</div><div class="tm-role">Head of Data Engineering</div><div class="tm-xp">7 yrs · real-time at scale</div></div>
+    <div class="tm-member rv-up d3"><div class="tm-av">TK</div><div class="tm-name">Timur K.</div><div class="tm-role">VP Product Design</div><div class="tm-xp">9 yrs · 100+ products shipped</div></div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section id="tech">
+  <div class="tc-wrap">
+    <div class="tc-left rv"><div class="s-label" data-n="06">Tech Stack</div><h2>Built on<br>proven<br><em>foundations</em></h2><p>Tools that have earned their place — not the ones with the best marketing.</p></div>
+    <div class="tc-tags rv d1">
+      <span class="tc-tag">Python</span><span class="tc-tag">PyTorch</span><span class="tc-tag">TensorFlow</span><span class="tc-tag">FastAPI</span><span class="tc-tag">PostgreSQL</span><span class="tc-tag">Redis</span><span class="tc-tag">Apache Kafka</span><span class="tc-tag">Spark</span><span class="tc-tag">dbt</span><span class="tc-tag">Airflow</span><span class="tc-tag">Docker</span><span class="tc-tag">Kubernetes</span><span class="tc-tag">AWS</span><span class="tc-tag">GCP</span><span class="tc-tag">Terraform</span><span class="tc-tag">React</span><span class="tc-tag">Flutter</span><span class="tc-tag">Node.js</span><span class="tc-tag">Go</span><span class="tc-tag">LangChain</span><span class="tc-tag">OpenAI API</span><span class="tc-tag">Hugging Face</span><span class="tc-tag">Elasticsearch</span><span class="tc-tag">Prometheus</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="fq-head">
+    <div><div class="s-label rv" data-n="07">Common questions</div><h2 class="fq-ht rv">Before you<br>reach out</h2></div>
+    <p class="fq-hp rv">Answers to the things every serious client asks.</p>
+  </div>
+  <div class="fq-list rv-up">
+    <div class="fq-item"><div class="fq-q">Are you accredited by IT Park, AIFC, and Astana Hub?<span class="fq-t">+</span></div><div class="fq-a"><div class="fq-a-inner">Yes. WaveLabs holds official resident status in IT Park Uzbekistan, AIFC (Astana International Financial Centre), and Astana Hub. Our clients benefit from internationally-recognised business infrastructure, English common law jurisdiction (AIFC), and preferred tax regimes across Kazakhstan and Uzbekistan.</div></div></div>
+    <div class="fq-item"><div class="fq-q">How long does a typical project take?<span class="fq-t">+</span></div><div class="fq-a"><div class="fq-a-inner">Most AI/ML projects run 6–16 weeks depending on data availability and scope. We give you a concrete timeline in week one, not a vague estimate.</div></div></div>
+    <div class="fq-item"><div class="fq-q">Do you work with companies outside Uzbekistan?<span class="fq-t">+</span></div><div class="fq-a"><div class="fq-a-inner">Yes. About 40% of our clients are based outside Central Asia. We work remotely across Europe, the Middle East, and Southeast Asia.</div></div></div>
+    <div class="fq-item"><div class="fq-q">What's your minimum project size?<span class="fq-t">+</span></div><div class="fq-a"><div class="fq-a-inner">We work best on projects with budgets of $15,000+. Below that, the discovery phase alone doesn't leave room to do quality work.</div></div></div>
+    <div class="fq-item"><div class="fq-q">Do you offer ongoing support after launch?<span class="fq-t">+</span></div><div class="fq-a"><div class="fq-a-inner">All projects include 60 days of post-launch support. For AI systems, we offer monthly retainer packages for monitoring and retraining.</div></div></div>
+    <div class="fq-item"><div class="fq-q">Can you work with our existing development team?<span class="fq-t">+</span></div><div class="fq-a"><div class="fq-a-inner">Absolutely. Many clients bring us in as a specialist AI/ML layer on top of their internal team.</div></div></div>
+  </div>
+</section>
+
+<!-- AI CALCULATOR -->
+<section id="calculator">
+  <div class="s-label rv" data-n="08" data-i18n="calc.label">Project Estimator</div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;">
+    <h2 class="rv" style="font-family:var(--f1);font-weight:800;font-size:clamp(32px,5vw,72px);line-height:1;letter-spacing:-.03em;" data-i18n="calc.title">Estimate<br><em style="color:var(--a)">your project</em></h2>
+    <p class="rv d1" style="font-family:var(--f2);font-size:14px;color:var(--fg2);max-width:360px;text-align:right;line-height:1.7;" data-i18n="calc.sub">Describe your idea. We calculate the investment<br>and generate a commercial proposal in seconds.</p>
+  </div>
+  <div class="calc-grid">
+    <div class="calc-left">
+      <div class="calc-field">
+        <label data-i18n="calc.idea">Your idea</label>
+        <textarea id="calcIdea" placeholder="e.g. AI-powered credit scoring system for a bank..." data-i18n-ph="calc.idea.ph"></textarea>
+      </div>
+      <div class="calc-select-row">
+        <div>
+          <label style="font-family:var(--f1);font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3);display:block;margin-bottom:10px;" data-i18n="calc.industry">Industry</label>
+          <select class="calc-sel" id="calcIndustry">
+            <option value="fintech">FinTech / Banking</option>
+            <option value="ecom">E-Commerce / Retail</option>
+            <option value="logistics">Logistics / Supply Chain</option>
+            <option value="health">Healthcare / MedTech</option>
+            <option value="realestate">Real Estate / PropTech</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-family:var(--f1);font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--fg3);display:block;margin-bottom:10px;" data-i18n="calc.scale">Company scale</label>
+          <select class="calc-sel" id="calcScale">
+            <option value="startup">Startup / Early-stage</option>
+            <option value="smb">SMB (50–500 people)</option>
+            <option value="enterprise">Enterprise (500+ people)</option>
+          </select>
+        </div>
+      </div>
+      <button class="calc-kp-btn" id="calcKpBtn" data-i18n="calc.gen">Generate Commercial Proposal</button>
+      <div class="calc-kp-lang" id="calcKpLang" style="display:none;">
+        <button onclick="renderKP('en')" id="kpl-en" class="active">EN</button>
+        <button onclick="renderKP('ru')" id="kpl-ru">RU</button>
+        <button onclick="renderKP('uz')" id="kpl-uz">UZ</button>
+      </div>
+      <div class="calc-kp-output" id="calcKpOut"></div>
+    </div>
+    <div class="calc-right">
+      <div class="calc-result">
+        <div class="calc-result-label" data-i18n="calc.estimate">Investment estimate</div>
+        <div class="calc-currency-row">
+          <div class="calc-currency"><div class="calc-currency-code">USD</div><div class="calc-currency-val usd" id="calcUSD">$15k – $30k</div></div>
+          <div class="calc-currency"><div class="calc-currency-code">EUR</div><div class="calc-currency-val" id="calcEUR">€14k – €28k</div></div>
+          <div class="calc-currency"><div class="calc-currency-code">UZS</div><div class="calc-currency-val" id="calcUZS">190M – 381M</div></div>
+        </div>
+        <div class="calc-timeline" id="calcTimeline">Estimated timeline: <span>6 – 10 weeks</span></div>
+      </div>
+      <button class="calc-apply-btn open-modal" data-i18n="calc.apply">Start This Project →</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <video id="ctVid" autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.14;z-index:0;pointer-events:none;"></video>
+  <div class="ct-inner">
+    <div>
+      <div class="ct-pre rv-up">Skip the pitch deck.</div>
+      <h2 class="ct-title rv-up" id="ctTitle">Let's close<br><em>a deal</em><br>worth building</h2>
+      <a href="mailto:hello@wavelabs.uz" class="ct-email rv-up">hello@wavelabs.uz</a>
+    </div>
+    <div class="rv-up d2">
+      <div class="ct-form-eyebrow" data-i18n="modal.eyebrow">New Project</div>
+      <form id="ct-form">
+        <div class="ct-field">
+          <label data-i18n="modal.name">Name</label>
+          <input type="text" id="ctName" required placeholder="Arslan Bekmuratov" data-i18n-ph="modal.name.ph">
+        </div>
+        <div class="ct-field">
+          <label data-i18n="modal.contact">Telegram / WhatsApp / Email</label>
+          <input type="text" id="ctContact" required placeholder="@username or +7 777 000 00 00" data-i18n-ph="modal.contact.ph">
+        </div>
+        <div class="ct-field">
+          <label data-i18n="modal.project">Project in one sentence</label>
+          <textarea id="ctMsg" rows="3" placeholder="We need an AI scoring model for 2M loan applications per month" data-i18n-ph="modal.project.ph"></textarea>
+        </div>
+        <button type="submit" class="ct-submit" data-i18n="modal.submit">Send Request →</button>
+        <p class="ct-form-note" data-i18n="modal.note">No spam. No pitch decks. Just a direct call.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo">WaveLabs © 2026</div>
+  <div class="ft-copy">AI Engineering Studio · Tashkent, Uzbekistan<br>IT Park · AIFC · Astana Hub</div>
+  <ul class="ft-links"><li><a href="mailto:hello@wavelabs.uz">hello@wavelabs.uz</a></li><li><a href="#">LinkedIn</a></li><li><a href="#">Telegram</a></li></ul>
+</footer>
+
+<!-- MODAL -->
+<div id="modal-overlay">
+  <div class="modal-bg"></div>
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-eyebrow" data-i18n="modal.eyebrow">New Project</div>
+    <h3 class="modal-title" data-i18n="modal.title">Let's build something real</h3>
+    <p class="modal-sub" data-i18n="modal.sub">3 fields. We respond within 4 hours.</p>
+    <form id="modal-form">
+      <div class="modal-field">
+        <label for="mName" data-i18n="modal.name">Name</label>
+        <input type="text" id="mName" required placeholder="Arslan Bekmuratov" data-i18n-ph="modal.name.ph">
+      </div>
+      <div class="modal-field">
+        <label for="mContact" data-i18n="modal.contact">Telegram / WhatsApp / Email</label>
+        <input type="text" id="mContact" required placeholder="@username or +7 777 000 00 00" data-i18n-ph="modal.contact.ph">
+      </div>
+      <div class="modal-field">
+        <label for="mMsg" data-i18n="modal.project">Project in one sentence</label>
+        <textarea id="mMsg" rows="3" placeholder="We need an AI scoring model for 2M loan applications per month" data-i18n-ph="modal.project.ph"></textarea>
+      </div>
+      <button type="submit" class="modal-submit" data-i18n="modal.submit">Send Request →</button>
+    </form>
+    <p class="modal-note" data-i18n="modal.note">No spam. No pitch decks. Just a direct call.</p>
+  </div>
+</div>
+
+<!-- CURSOR -->
+<canvas id="cursor-canvas"></canvas>
+
+<script>
+/* ── HIGGSFIELD ASSETS ── */
+const HF = {
+  // Hero video: Google Veo 3.1 — ultra-realistic aerial architecture dissolving into AI particles
+  heroVid: 'https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_072530_62617b57-be7c-4708-a36e-fe34c0c07df4.mp4',
+  contactVid: 'https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260502_085519_1bf0b432-3c2f-441f-ae04-3e745477ac3b.mp4',
+  // Manifesto panel: Cinema Studio 3.0 — abstract AI data streams, neural light (premium Higgsfield)
+  vid2: 'https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_072527_8c43c96f-01c2-4600-838a-3963708c2b82.mp4',
+  img1: 'https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_070444_33348abc-7437-432e-a702-aae6858faa23_min.webp',
+  img2: 'https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_070441_1c6408bb-1d2a-46d0-a8fb-16c26d5cc6c6_min.webp',
+  img3: 'https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_070447_0d3bd4c5-38d7-4beb-874f-95c497bcd818_min.webp',
+  imgWorkspace: 'https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260502_213022_2051503b-63fe-40bb-b7f9-c078c21749ce_min.webp',
+  imgCity: 'https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260502_213026_8278a329-ab17-487a-9d50-ba977dd9d488_min.webp',
+};
+// Hero video
+const heroVidEl = document.getElementById('heroVid');
+heroVidEl.src = HF.heroVid;
+heroVidEl.addEventListener('canplay', () => heroVidEl.classList.add('loaded'), {once:true});
+heroVidEl.addEventListener('error', () => heroVidEl.classList.add('loaded'), {once:true});
+setTimeout(() => heroVidEl.classList.add('loaded'), 3000); // fallback if canplay never fires
+// Manifesto + work images
+document.getElementById('mfVid').src = HF.vid2;
+document.getElementById('ctVid').src = HF.contactVid;
+const _wsEl = document.getElementById('imgWorkspace'); if(_wsEl) _wsEl.src = HF.imgWorkspace;
+document.getElementById('img-1').src = HF.img1;
+document.getElementById('img-2').src = HF.img2;
+document.getElementById('img-3').src = HF.img3;
+
+/* ── LOADER ── */
+let p=0; const ldN=document.getElementById('ldN');
+const li=setInterval(()=>{p+=Math.random()*15;if(p>100)p=100;ldN.textContent=Math.floor(p)+'%';if(p===100){clearInterval(li);setTimeout(()=>document.getElementById('loader').classList.add('out'),320);}},80);
+
+/* ── LENIS ── */
+const lenis=new Lenis({duration:1.25,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true});
+(function raf(t){lenis.raf(t);requestAnimationFrame(raf);})();
+lenis.on('scroll',({progress})=>{document.getElementById('progress').style.width=(progress*100)+'%';});
+
+/* ── GSAP ── */
+gsap.registerPlugin(ScrollTrigger);
+lenis.on('scroll',ScrollTrigger.update);
+gsap.ticker.add(t=>lenis.raf(t*1000));
+gsap.ticker.lagSmoothing(0);
+
+/* hero title: SplitType */
+window.addEventListener('load',()=>{
+  const st=new SplitType('#heroTitle',{types:'chars,words'});
+  gsap.from(st.chars,{opacity:0,x:-40,stagger:{amount:.5,from:'start'},duration:.7,ease:'power3.out',delay:.5});
+});
+
+/* manifesto — SplitType + GSAP (same approach as hero/contact) */
+ScrollTrigger.create({
+  trigger:'#manifesto',start:'top 65%',once:true,
+  onEnter:()=>{
+    const st=new SplitType('#mfBody',{types:'words'});
+    gsap.from(st.words,{opacity:0,y:30,stagger:{amount:.5},duration:.7,ease:'power3.out'});
+  }
+});
+
+/* contact title */
+ScrollTrigger.create({
+  trigger:'#contact',start:'top 70%',once:true,
+  onEnter:()=>{
+    const st=new SplitType('#ctTitle',{types:'chars'});
+    gsap.from(st.chars,{opacity:0,y:50,stagger:.022,duration:.65,ease:'power3.out'});
+  }
+});
+
+/* tech tags stagger */
+ScrollTrigger.create({
+  trigger:'#tech',start:'top 70%',once:true,
+  onEnter:()=>gsap.from('.tc-tag',{opacity:0,y:14,stagger:{amount:.7,from:'random'},duration:.45,ease:'power2.out'})
+});
+
+/* stats GSAP countup */
+document.querySelectorAll('.cnt').forEach(el=>{
+  const target=+el.dataset.v;
+  gsap.fromTo(el,{textContent:0},{
+    textContent:target,duration:2,ease:'power2.out',snap:{textContent:1},
+    scrollTrigger:{trigger:el,start:'top 80%',once:true,
+      onEnter:()=>el.closest('.st-cell').classList.add('lit')}
+  });
+});
+
+/* scroll reveals — horizontal (rv) and vertical (rv-up) */
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.05,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv,.rv-up').forEach(el=>obs.observe(el));
+// Trigger elements already in viewport on load
+window.addEventListener('load',()=>document.querySelectorAll('.rv,.rv-up').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<window.innerHeight)el.classList.add('in');}));
+
+/* nav stuck */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('stuck',window.scrollY>60),{passive:true});
+
+
+/* ── SERVICES ACCORDION ── */
+document.querySelectorAll('.sv-trigger').forEach(trigger=>{
+  trigger.addEventListener('click',()=>{
+    const row=trigger.closest('.sv-row');
+    const body=row.querySelector('.sv-body');
+    const wasOpen=row.classList.contains('open');
+    document.querySelectorAll('.sv-row.open').forEach(r=>{r.classList.remove('open');r.querySelector('.sv-body').classList.remove('open');});
+    if(!wasOpen){row.classList.add('open');body.classList.add('open');}
+  });
+});
+
+/* ── FAQ ACCORDION ── */
+document.querySelectorAll('.fq-item').forEach(item=>{
+  item.querySelector('.fq-q').addEventListener('click',()=>{
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.fq-item.open').forEach(o=>o.classList.remove('open'));
+    if(!open)item.classList.add('open');
+  });
+});
+
+/* ── MAGNETIC BUTTONS ── */
+[document.getElementById('ctaBtn'),document.getElementById('ctaBtn2')].forEach(btn=>{
+  if(!btn)return;
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    const dx=(e.clientX-r.left-r.width/2)*.28,dy=(e.clientY-r.top-r.height/2)*.28;
+    gsap.to(btn,{x:dx,y:dy,duration:.3,ease:'power2.out'});
+  });
+  btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.6,ease:'elastic.out(1,0.4)'}));
+});
+
+/* ── HERO EYEBROW ROTATION ── */
+(function(){
+  const phrases=[
+    'Resident: IT Park · AIFC · Astana Hub',
+    'Closing $10M+ Enterprise Contracts',
+    'C-Level AI Execution — Prototype to Production',
+    'Your Competitive Advantage, Engineered'
+  ];
+  let pi=0;
+  const et=document.querySelector('.ey-txt');
+  if(et){
+    et.style.cssText='transition:opacity .35s ease,transform .35s ease;display:inline-block;';
+    et.textContent=phrases[0];
+    setInterval(()=>{
+      et.style.opacity='0';et.style.transform='translateY(-8px)';
+      setTimeout(()=>{pi=(pi+1)%phrases.length;et.textContent=phrases[pi];et.style.opacity='1';et.style.transform='none';},380);
+    },3800);
+  }
+})();
+
+/* ── WORK CARDS: hover lift (no 3D, lighter feel for light theme) ── */
+document.querySelectorAll('.wk-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    gsap.to(card,{rotateY:x*6,rotateX:-y*6,duration:.35,ease:'power2.out',transformPerspective:1000});
+  });
+  card.addEventListener('mouseleave',()=>gsap.to(card,{rotateY:0,rotateX:0,duration:.5,ease:'elastic.out(1,0.6)'}));
+});
+
+/* i18n — FULL TRANSLATIONS (shared with dark version) */
+const T=window._WL_T||(()=>{const o={en:{'nav.services':'Services','nav.work':'Work','nav.process':'Process','nav.team':'Team','nav.cta':"Let's Talk",'hero.chip':'Resident: IT Park · AIFC · Astana Hub','hero.loc.label':'Location','hero.loc.val':'Tashkent, Uzbekistan<br>Central Asia','hero.spec.label':'Specialisation','hero.spec.val':'AI / ML · Custom Software<br>Data Engineering · Digital Products','hero.accred.label':'Accreditation','hero.accred.val':'IT Park · AIFC<br>Astana Hub','hero.status.label':'Status','hero.status.val':'● Accepting Enterprise Clients','hero.scroll':'Scroll','eco.label':'VERIFIED ECOSYSTEM RESIDENT','eco.itpark.status':'✓ Official Resident','eco.itpark.desc':"National technology innovation hub. Tax benefits, legal infrastructure, and access to the region's top engineering talent.",'eco.aifc.status':'✓ Official Resident','eco.aifc.desc':'Astana International Financial Centre. Internationally-recognised jurisdiction with English common law and zero corporate tax.','eco.hub.status':'✓ Official Resident','eco.hub.desc':'International tech startup hub. Gateway to Central Asian markets and preferred partner ecosystem.','clients.header':'Trusted by leading companies across Central Asia & beyond','about.label':'About','about.desc':'AI engineering studio from Central Asia, building intelligent systems that reshape how businesses operate in the modern world.','manifesto':"We don't follow trends — we build the <em>systems</em> that create them. Precision engineering meets radical <em>ambition.</em>",'sv.title':'What we <em>engineer</em>','sv.hint':'Scroll through our services<span>→ drag to explore</span>','sv1.name':'AI / ML<br>Development','sv1.desc':'Custom machine learning models, neural networks, recommendation systems, and AI-powered automation built for your specific domain and data.','sv2.name':'Custom<br>Software','sv2.desc':'Scalable backend systems, APIs, and enterprise platforms engineered with precision and built to last years, not months.','sv3.name':'Data<br>Engineering','sv3.desc':'Pipelines, warehouses, analytics platforms, and real-time processing infrastructure that turns raw data into clear decisions.','sv4.name':'Digital<br>Products','sv4.desc':'Mobile and web applications designed with intelligence at their core — products that learn, adapt, and grow with your users.','sv5.name':'Digital<br>Transformation','sv5.desc':'Full-spectrum consulting and implementation. We take legacy organisations and rebuild them for the AI era from the ground up.','stats.l1':'Enterprise Clients','stats.l2':'Avg. ROI Delivered','stats.l3':'Revenue Multiplier','stats.l4':'On-Time Delivery','testi.label':'What clients say','tm1.text':"They didn't just build a credit scoring model — they redesigned our entire underwriting logic. Default rates dropped 34% in the first quarter post-launch.",'tm1.who':'<strong>Head of Digital Products</strong>Fintech · Almaty, Kazakhstan','tm2.text':"Our data infrastructure went from batch-daily to real-time in eight weeks. WaveLabs is the only team I've seen match Silicon Valley execution speed in this region.",'tm2.who':'<strong>CTO</strong>Logistics Platform · Tashkent, Uzbekistan','tm3.text':"We came in with a $2M contract and a 90-day deadline. They delivered. The AI recommendation engine now drives 38% of total GMV. That's not a vendor — that's a partner.",'tm3.who':'<strong>CEO</strong>E-commerce Marketplace · Central Asia','tm4.text':"Three previous agencies failed at this integration. WaveLabs scoped it in a day, shipped in six weeks, and the system has had zero downtime in nine months.",'tm4.who':'<strong>VP Engineering</strong>Enterprise SaaS · Astana, Kazakhstan','work.title':'Selected <span style="color:var(--a)">work</span>','work.all':'View all projects →','wk1.tag':'AI Platform · Fintech','wk1.name':'Intelligent Credit<br>Scoring System','wk2.tag':'NLP · E-commerce','wk2.name':'Semantic Search<br>& Recommendation','wk3.tag':'Data Engineering · Logistics','wk3.name':'Real-Time Supply<br>Chain Intelligence','pr.label':'How we work','pr.title':'From idea to <em>production</em> — four precise stages.','pr1.title':'Discovery &<br>Architecture','pr1.desc':'We dissect your domain, map your data landscape, and design a system architecture that solves the actual problem.','pr2.title':'Engineering<br>Sprint','pr2.desc':'Rapid, iterative development with weekly deliverables. No 3-month black boxes. You see progress every Friday.','pr3.title':'Testing &<br>Calibration','pr3.desc':'We benchmark against real-world data, iterate, and calibrate until performance meets the spec.','pr4.title':'Deploy &<br>Scale','pr4.desc':'Production launch, monitoring, and ongoing optimisation. We stay in the system with you post-launch.','team.label':'The team','team.title':'C-Level execution,<br><em>delivered directly</em>','team.desc':'No middlemen. You work directly with the principals who architect, build, and ship your system.','m1.role':'Chief AI Officer','m1.xp':'8 yrs · 20+ enterprise models','m2.role':'Chief Technology Officer','m2.xp':'10 yrs · $50M+ systems built','m3.role':'Head of Data Engineering','m3.xp':'7 yrs · real-time at scale','m4.role':'VP Product Design','m4.xp':'9 yrs · 100+ products shipped','tech.label':'Tech Stack','tech.title':'Built on<br>proven<br><em>foundations</em>','tech.desc':'Tools that have earned their place — not the ones with the best marketing.','faq.label':'Common questions','faq.title':'Before you<br>reach out','faq.subtitle':'Answers to the things every serious client asks.','fq1.q':'Are you accredited by IT Park, AIFC, and Astana Hub?','fq1.a':'Yes. WaveLabs holds official resident status in IT Park Uzbekistan, AIFC (Astana International Financial Centre), and Astana Hub. Our clients benefit from internationally-recognised business infrastructure, English common law jurisdiction (AIFC), and preferred tax regimes across Kazakhstan and Uzbekistan.','fq2.q':'How long does a typical project take?','fq2.a':'Most AI/ML projects run 6–16 weeks depending on data availability and scope. We give you a concrete timeline in week one, not a vague estimate.','fq3.q':'Do you work with companies outside Uzbekistan?','fq3.a':'Yes. About 40% of our clients are based outside Central Asia. We work remotely across Europe, the Middle East, and Southeast Asia.','fq4.q':"What's your minimum project size?",'fq4.a':"We work best on projects with budgets of $15,000+. Below that, the discovery phase alone doesn't leave room to do quality work.",'fq5.q':'Do you offer ongoing support after launch?','fq5.a':'All projects include 60 days of post-launch support. For AI systems, we offer monthly retainer packages for monitoring and retraining.','fq6.q':'Can you work with our existing development team?','fq6.a':'Absolutely. Many clients bring us in as a specialist AI/ML layer on top of their internal team.','ct.pre':'Skip the pitch deck.','ct.title':"Let's close<br><em>a deal</em><br>worth building",'footer.copy':'AI Engineering Studio · Tashkent, Uzbekistan<br>IT Park · AIFC · Astana Hub','cta.main':'Get in touch →','calc.label':'Project Estimator','calc.idea':'Your idea','calc.idea.ph':'e.g. AI-powered credit scoring system for a bank, demand forecasting platform for retail...','calc.industry':'Industry','calc.scale':'Company scale','calc.gen':'Generate Commercial Proposal','calc.estimate':'Investment estimate','calc.apply':'Start This Project →','calc.timeline':'Estimated timeline:','modal.eyebrow':'New Project','modal.title':"Let's build something real",'modal.sub':'3 fields. We respond within 4 hours.','modal.name':'Name','modal.contact':'Telegram / WhatsApp / Email','modal.project':'Project in one sentence','modal.submit':'Send Request →','modal.note':'No spam. No pitch decks. Just a direct call.','modal.name.ph':'Arslan Bekmuratov','modal.contact.ph':'@username or +7 777 000 00 00','modal.project.ph':'We need an AI scoring model for 2M loan applications per month'},ru:{'nav.services':'Услуги','nav.work':'Работы','nav.process':'Процесс','nav.team':'Команда','nav.cta':'Связаться','hero.chip':'Резидент: IT Park · AIFC · Astana Hub','hero.loc.label':'Расположение','hero.loc.val':'Ташкент, Узбекистан<br>Центральная Азия','hero.spec.label':'Специализация','hero.spec.val':'AI / ML · Кастомное ПО<br>Data Engineering · Цифровые продукты','hero.accred.label':'Аккредитация','hero.accred.val':'IT Park · AIFC<br>Astana Hub','hero.status.label':'Статус','hero.status.val':'● Принимаем корпоративных клиентов','hero.scroll':'Вниз','eco.label':'ВЕРИФИЦИРОВАННЫЙ РЕЗИДЕНТ ЭКОСИСТЕМЫ','eco.itpark.status':'✓ Официальный резидент','eco.itpark.desc':'Национальный технологический инновационный хаб. Налоговые льготы, правовая инфраструктура и доступ к ведущим инженерным талантам региона.','eco.aifc.status':'✓ Официальный резидент','eco.aifc.desc':'Международный финансовый центр Астаны. Международно признанная юрисдикция с английским общим правом и нулевым корпоративным налогом.','eco.hub.status':'✓ Официальный резидент','eco.hub.desc':'Международный технологический стартап-хаб. Выход на рынки Центральной Азии и привилегированная партнёрская экосистема.','clients.header':'Нам доверяют ведущие компании Центральной Азии и не только','about.label':'О нас','about.desc':'AI-инженерная студия из Центральной Азии, создающая интеллектуальные системы, которые меняют способ ведения бизнеса в современном мире.','manifesto':'Мы не следуем трендам — мы создаём <em>системы,</em> которые их задают. Точность инженерной мысли встречается с радикальными <em>амбициями.</em>','sv.title':'Что мы <em>создаём</em>','sv.hint':'Листайте услуги<span>→ тяните для изучения</span>','sv1.name':'Разработка<br>AI / ML','sv1.desc':'Кастомные модели машинного обучения, нейросети, рекомендательные системы и AI-автоматизация под вашу специфику и данные.','sv2.name':'Кастомное<br>ПО','sv2.desc':'Масштабируемые backend-системы, API и корпоративные платформы, созданные с точностью и рассчитанные на годы, а не месяцы.','sv3.name':'Data<br>Engineering','sv3.desc':'Пайплайны, хранилища данных, аналитические платформы и инфраструктура реального времени — сырые данные в ясные решения.','sv4.name':'Цифровые<br>продукты','sv4.desc':'Мобильные и веб-приложения с интеллектом в основе — продукты, которые учатся, адаптируются и растут с вашими пользователями.','sv5.name':'Цифровая<br>трансформация','sv5.desc':'Комплексный консалтинг и внедрение. Мы берём устаревшие организации и перестраиваем их для эпохи AI с нуля.','stats.l1':'Корпоративных клиентов','stats.l2':'Средний ROI','stats.l3':'Мультипликатор выручки','stats.l4':'Выполнено в срок','testi.label':'Что говорят клиенты','tm1.text':'Они не просто построили модель кредитного скоринга — они переработали всю нашу логику андеррайтинга. Уровень дефолтов снизился на 34% в первом квартале после запуска.','tm1.who':'<strong>Директор по цифровым продуктам</strong>Fintech · Алматы, Казахстан','tm2.text':'Наша инфраструктура данных перешла с пакетной ежедневной обработки на режим реального времени за восемь недель. WaveLabs — единственная команда в регионе, работающая с Silicon Valley-скоростью.','tm2.who':'<strong>CTO</strong>Логистическая платформа · Ташкент, Узбекистан','tm3.text':'Мы пришли с контрактом на $2M и дедлайном 90 дней. Они сдали. AI-движок рекомендаций теперь генерирует 38% от общего GMV. Это не вендор — это партнёр.','tm3.who':'<strong>CEO</strong>E-commerce маркетплейс · Центральная Азия','tm4.text':'Три предыдущих агентства не справились с этой интеграцией. WaveLabs описали задачу за день, сдали за шесть недель, система работает без сбоев девять месяцев.','tm4.who':'<strong>VP Engineering</strong>Enterprise SaaS · Астана, Казахстан','work.title':'Избранные <span style="color:var(--a)">работы</span>','work.all':'Все проекты →','wk1.tag':'AI Платформа · Fintech','wk1.name':'Интеллектуальная система<br>кредитного скоринга','wk2.tag':'NLP · E-commerce','wk2.name':'Семантический поиск<br>и рекомендации','wk3.tag':'Data Engineering · Логистика','wk3.name':'Интеллект цепочки<br>поставок в реальном времени','pr.label':'Как мы работаем','pr.title':'От идеи до <em>продакшна</em> — четыре чётких этапа.','pr1.title':'Диагностика &<br>Архитектура','pr1.desc':'Мы анализируем вашу область, картируем ландшафт данных и проектируем архитектуру, которая решает реальную проблему.','pr2.title':'Инженерный<br>спринт','pr2.desc':'Быстрая итеративная разработка с еженедельными поставками. Никаких чёрных ящиков на 3 месяца. Прогресс видно каждую пятницу.','pr3.title':'Тестирование &<br>Калибровка','pr3.desc':'Бенчмаркинг на реальных данных, итерации и калибровка до соответствия производительности спецификации.','pr4.title':'Deploy &<br>Масштабирование','pr4.desc':'Производственный запуск, мониторинг и постоянная оптимизация. Мы остаёмся в системе с вами после запуска.','team.label':'Команда','team.title':'C-Level исполнение,<br><em>напрямую</em>','team.desc':'Никаких посредников. Вы работаете напрямую с C-level командой, которая проектирует, строит и запускает вашу систему.','m1.role':'Директор по AI','m1.xp':'8 лет · 20+ корп. моделей','m2.role':'Технический директор','m2.xp':'10 лет · системы на $50M+','m3.role':'Руководитель Data Engineering','m3.xp':'7 лет · реальное время в масштабе','m4.role':'VP Product Design','m4.xp':'9 лет · 100+ продуктов запущено','tech.label':'Технологии','tech.title':'Построено на<br>проверенных<br><em>основаниях</em>','tech.desc':'Инструменты, которые заслужили своё место — не те, что лучше всего рекламируются.','faq.label':'Частые вопросы','faq.title':'Прежде чем<br>написать','faq.subtitle':'Ответы на вопросы, которые задаёт каждый серьёзный клиент.','fq1.q':'Вы аккредитованы IT Park, AIFC и Astana Hub?','fq1.a':'Да. WaveLabs имеет официальный статус резидента в IT Park Узбекистан, AIFC (Международный финансовый центр Астаны) и Astana Hub. Наши клиенты получают доступ к международно признанной бизнес-инфраструктуре, юрисдикции английского права (AIFC) и льготным налоговым режимам Казахстана и Узбекистана.','fq2.q':'Сколько времени занимает типичный проект?','fq2.a':'Большинство AI/ML проектов занимают 6–16 недель в зависимости от доступности данных. Мы даём конкретный таймлайн на первой неделе, а не расплывчатую оценку.','fq3.q':'Вы работаете с компаниями за пределами Узбекистана?','fq3.a':'Да. Около 40% наших клиентов находятся за пределами Центральной Азии. Мы работаем дистанционно с Европой, Ближним Востоком и Юго-Восточной Азией.','fq4.q':'Каков минимальный бюджет проекта?','fq4.a':'Мы лучше всего работаем на проектах с бюджетом от $15 000. Ниже этой суммы одна фаза диагностики не оставляет места для качественной работы.','fq5.q':'Предлагаете ли вы поддержку после запуска?','fq5.a':'Все проекты включают 60 дней поддержки после запуска. Для AI-систем мы предлагаем ежемесячные пакеты мониторинга и переобучения.','fq6.q':'Можете ли вы работать с нашей существующей командой?','fq6.a':'Абсолютно. Многие клиенты привлекают нас как специализированный AI/ML слой поверх своей внутренней команды.','ct.pre':'Пропустите питч-дек.','ct.title':'Давайте закроем<br><em>сделку,</em><br>достойную усилий','footer.copy':'AI Engineering Studio · Ташкент, Узбекистан<br>IT Park · AIFC · Astana Hub','cta.main':'Связаться →','calc.label':'Оценка проекта','calc.idea':'Ваша идея','calc.idea.ph':'Например: AI-скоринг для банка, платформа прогнозирования спроса для ритейла...','calc.industry':'Отрасль','calc.scale':'Масштаб компании','calc.gen':'Сгенерировать коммерческое предложение','calc.estimate':'Инвестиция','calc.apply':'Начать этот проект →','calc.timeline':'Сроки:','modal.eyebrow':'Новый проект','modal.title':'Давайте создадим что-то реальное','modal.sub':'3 поля. Отвечаем в течение 4 часов.','modal.name':'Имя','modal.contact':'Telegram / WhatsApp / Email','modal.project':'Проект в одном предложении','modal.submit':'Отправить заявку →','modal.note':'Без спама. Без презентаций. Только прямой звонок.','modal.name.ph':'Асхат Бекмуратов','modal.contact.ph':'@username или +7 777 000 00 00','modal.project.ph':'Нам нужна AI-модель скоринга для 2M кредитных заявок в месяц'},uz:{'nav.services':'Xizmatlar','nav.work':'Ishlar','nav.process':'Jarayon','nav.team':'Jamoa','nav.cta':"Bog'lanish",'hero.chip':'Rezident: IT Park · AIFC · Astana Hub','hero.loc.label':'Joylashuv','hero.loc.val':"Toshkent, O'zbekiston<br>Markaziy Osiyo",'hero.spec.label':'Mutaxassislik','hero.spec.val':'AI / ML · Maxsus dasturlar<br>Data Engineering · Raqamli mahsulotlar','hero.accred.label':'Akkreditatsiya','hero.accred.val':'IT Park · AIFC<br>Astana Hub','hero.status.label':'Holat','hero.status.val':"● Korporativ mijozlarni qabul qilamiz",'hero.scroll':"Aylantiring",'eco.label':'TASDIQLANGAN EKOTIZIM REZIDENTI','eco.itpark.status':'✓ Rasmiy rezident','eco.itpark.desc':"Milliy texnologik innovatsiya markazi. Soliq imtiyozlari, huquqiy infratuzilma va mintaqaning eng yaxshi muhandislik iste'dodlariga kirish.",'eco.aifc.status':'✓ Rasmiy rezident','eco.aifc.desc':"Ostona Xalqaro Moliya Markazi. Ingliz umumiy huquqi va nol korporativ soliq bilan xalqaro tan olingan yurisdiksiya.",'eco.hub.status':'✓ Rasmiy rezident','eco.hub.desc':"Xalqaro texnologik startap markazi. Markaziy Osiyo bozorlariga kirish va afzalliklangan hamkorlik ekotizimi.",'clients.header':"Markaziy Osiyo va undan tashqaridagi yetakchi kompaniyalar bizga ishonadi",'about.label':"Biz haqimizda",'about.desc':"Markaziy Osiyodagi AI muhandislik studiyasi — zamonaviy dunyoda biznesning ishlash usulini o'zgartiradigan intellektual tizimlarni yaratadi.",'manifesto':"Biz trendlarga ergashmaymiz — biz ularni yaratadigan <em>tizimlarni</em> quramiz. Muhandislik aniqligi radikal <em>ambitsiya</em> bilan uchrashuvi.",'sv.title':"Biz nima <em>yaratamiz</em>",'sv.hint':"Xizmatlarni aylantiring<span>→ o'rganish uchun torting</span>",'sv1.name':'AI / ML<br>Ishlanmasi','sv1.desc':"Maxsus machine learning modellari, neyron tarmoqlar, tavsiya tizimlari va sizning soha va ma'lumotlaringiz uchun yaratilgan AI avtomatlashtirish.",'sv2.name':'Maxsus<br>Dasturlar','sv2.desc':"Kengayadigan backend tizimlar, API-lar va korporativ platformalar — oylar emas, yillar uchun yaratilgan.",'sv3.name':'Data<br>Engineering','sv3.desc':"Pipelinelar, omborxonalar, analitik platformalar va real vaqtli qayta ishlash infratuzilmasi — xom ma'lumotlarni aniq qarorlarga aylantiradi.",'sv4.name':'Raqamli<br>Mahsulotlar','sv4.desc':"Asosida intellekti bor mobil va veb ilovalar — o'rganadigan, moslashadigan va foydalanuvchilaringiz bilan o'sadigan mahsulotlar.",'sv5.name':'Raqamli<br>Transformatsiya','sv5.desc':"To'liq spektrli maslahat va joriy etish. Biz eskirgan tashkilotlarni AI davriga mos ravishda qayta quramiz.",'stats.l1':"Korporativ mijozlar",'stats.l2':"O'rtacha ROI",'stats.l3':"Daromad multiplikatori",'stats.l4':"O'z vaqtida yetkazib berish",'testi.label':'Mijozlar nima deydi','tm1.text':"Ular shunchaki kredit skoring modelini qurmadilar — ular bizning butun andderrayting mantiqimizni qayta ishladilar. Defolt darajasi birinchi chorakda 34% ga tushdi.",'tm1.who':"<strong>Raqamli mahsulotlar direktori</strong>Fintech · Olmaota, Qozog'iston",'tm2.text':"Bizning ma'lumot infratuzilmamiz sakkiz haftada real vaqtli rejimga o'tdi. WaveLabs bu mintaqada Silicon Valley tezligida ishlaydigan yagona jamoasi.",'tm2.who':"<strong>CTO</strong>Logistika platformasi · Toshkent, O'zbekiston",'tm3.text':"Biz $2M kontrakti va 90 kunlik muddat bilan keldik. Ular topshirdi. AI tavsiya mexanizmi endi umumiy GMVning 38% ini harakatlantiradi. Bu vendor emas — bu hamkor.",'tm3.who':"<strong>CEO</strong>E-commerce bozori · Markaziy Osiyo",'tm4.text':"Uchta oldingi agentlik bu integratsiyani uddalay olmadi. WaveLabs bir kunda tavsifladilar, olti haftada topshirdilar va tizim to'qqiz oy davomida to'xtamasdan ishlayapti.",'tm4.who':"<strong>VP Engineering</strong>Enterprise SaaS · Ostona, Qozog'iston",'work.title':'Tanlangan <span style="color:var(--a)">ishlar</span>','work.all':'Barcha loyihalar →','wk1.tag':'AI Platforma · Fintech','wk1.name':'Intellektual kredit<br>skoring tizimi','wk2.tag':'NLP · E-commerce','wk2.name':'Semantik qidiruv<br>va tavsiyalar','wk3.tag':'Data Engineering · Logistika','wk3.name':"Real vaqtli ta'minot<br>zanjiri intellekti",'pr.label':"Qanday ishlashimiz",'pr.title':"G'oyadan <em>produksiyaga</em> — to'rt aniq bosqich.",'pr1.title':'Diagnostika &<br>Arxitektura','pr1.desc':"Biz sizning sohangizni tahlil qilamiz, ma'lumotlar landshaftini xaritalamiz va haqiqiy muammoni hal qiladigan tizim arxitekturasini loyihaymiz.",'pr2.title':'Muhandislik<br>sprinti','pr2.desc':"Haftalik yetkazib berishlar bilan tez iterativ ishlanma. 3 oylik qora qutilar yo'q. Har juma kuni rivojlanishni ko'rasiz.",'pr3.title':'Sinov &<br>Kalibrlash','pr3.desc':"Biz real dunyo ma'lumotlarida sinab ko'ramiz, takrorlaymiz va unumdorlik spetsifikatsiyaga mos kelguncha kalibrlashni davom ettiramiz.",'pr4.title':'Deploy &<br>Kengaytirish','pr4.desc':"Produksiyaga chiqarish, monitoring va doimiy optimizatsiya. Biz ishga tushirgandan keyin ham tizimda siz bilan qolamiz.",'team.label':'Jamoa','team.title':"C-Level ijro,<br><em>bevosita</em>",'team.desc':"Vositachilar yo'q. Siz tizimingizni loyihalash, qurish va ishga tushirish ustida ishlaydigan C-darajali jamoa bilan bevosita ishlaysiz.",'m1.role':'Chief AI Officer','m1.xp':'8 yil · 20+ korporativ model','m2.role':'Chief Technology Officer','m2.xp':'10 yil · $50M+ tizimlar','m3.role':'Data Engineering rahbari','m3.xp':'7 yil · real vaqt va kengayish','m4.role':'VP Product Design','m4.xp':'9 yil · 100+ mahsulot','tech.label':'Texnologiyalar','tech.title':"Sinovdan o'tgan<br>asoslar ustiga<br><em>qurilgan</em>",'tech.desc':"O'z o'rnini topgan vositalar — eng yaxshi reklama qilinganlar emas.",'faq.label':"Ko'p so'raladigan savollar",'faq.title':"Murojaat<br>qilishdan oldin",'faq.subtitle':"Har bir jiddiy mijoz so'raydigan narsalarga javoblar.",'fq1.q':'IT Park, AIFC va Astana Hub tomonidan akkreditatsiya qilinganmisiz?','fq1.a':"Ha. WaveLabs IT Park O'zbekiston, AIFC va Astana Hub'da rasmiy rezident maqomiga ega. Mijozlarimiz xalqaro tan olingan biznes infratuzilmasi, ingliz huquqi yurisdiksiyasi va soliq imtiyozlaridan foydalanadilar.",'fq2.q':'Odatdagi loyiha qancha vaqt oladi?','fq2.a':"Ko'pgina AI/ML loyihalari 6-16 hafta davom etadi. Biz birinchi haftada aniq jadval beramiz, noaniq taxmin emas.",'fq3.q':"O'zbekistondan tashqaridagi kompaniyalar bilan ishlaysizmi?",'fq3.a':"Ha. Mijozlarimizning taxminan 40% Markaziy Osiyodan tashqarida. Biz Yevropa, Yaqin Sharq va Janubi-Sharqiy Osiyo bo'ylab masofadan ishlaymiz.",'fq4.q':'Minimal loyiha byudjeti qancha?','fq4.a':"Biz $15 000 dan yuqori byudjetli loyihalarda eng yaxshi natijaga erishamiz. Bundan past bo'lsa, faqat diagnostika bosqichi sifatli ish uchun joy qoldirmaydi.",'fq5.q':"Ishga tushirgandan keyin qo'llab-quvvatlash taklif qilasizmi?",'fq5.a':"Barcha loyihalar ishga tushirgandan keyin 60 kunlik qo'llab-quvvatlashni o'z ichiga oladi. AI tizimlari uchun monitoring va qayta o'qitish uchun oylik xizmat paketlarini taklif qilamiz.",'fq6.q':"Mavjud ishlanma jamoamiz bilan ishlashingiz mumkinmi?",'fq6.a':"Albatta. Ko'pgina mijozlar bizni ichki jamoaning ustiga mutaxassislashgan AI/ML qatlami sifatida jalb etadilar.",'ct.pre':"Taqdimotni o'tkazib yuboring.",'ct.title':"Keling, qurishga<br><em>arzigulik</em><br>bitim yopamiz",'footer.copy':"AI Muhandislik Studiyasi · Toshkent, O'zbekiston<br>IT Park · AIFC · Astana Hub",'cta.main':"Bog'lanish →",'calc.label':'Loyiha baholash','calc.idea':"G'oyangiz",'calc.idea.ph':"Masalan: bank uchun AI-skoring tizimi, chakana savdo uchun talab bashorat platformasi...",'calc.industry':'Soha','calc.scale':"Kompaniya ko'lami",'calc.gen':'Tijorat taklifi yaratish','calc.estimate':'Investitsiya','calc.apply':'Loyihani boshlash →','calc.timeline':'Taxminiy muddat:','modal.eyebrow':'Yangi loyiha','modal.title':"Keling, biror narsa yarataymiz",'modal.sub':"3 maydon. 4 soat ichida javob beramiz.",'modal.name':'Ism','modal.contact':'Telegram / WhatsApp / Email','modal.project':'Loyiha bir jumlada','modal.submit':"So'rov yuborish →",'modal.note':"Spam yo'q. Taqdimot yo'q. Faqat to'g'ridan-to'g'ri qo'ng'iroq.",'modal.name.ph':'Ashat Bekmuratov','modal.contact.ph':'@username yoki +998 90 000 00 00','modal.project.ph':"Oyda 2M kredit arizasi uchun AI-skoring modeliga muhtojmiz"}};return o;})();
+let curLang=localStorage.getItem('wl-lang')||'en';
+function setLang(l){
+  curLang=l;localStorage.setItem('wl-lang',l);
+  document.querySelectorAll('.lang-sw button').forEach(b=>b.classList.remove('active'));
+  const btn=document.getElementById('ln-'+l);if(btn)btn.classList.add('active');
+  const t=T[l]||T.en;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k]!==undefined)el.textContent=t[k];});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(t[k])el.placeholder=t[k];});
+  const $=(sel,key,html=false)=>{const el=document.querySelector(sel);if(el&&t[key]!==undefined){if(html)el.innerHTML=t[key];else el.textContent=t[key];}};
+  const $$=(sel,keys,html=false)=>document.querySelectorAll(sel).forEach((el,i)=>{const k=Array.isArray(keys)?keys[i]:keys;if(el&&k&&t[k]!==undefined){if(html)el.innerHTML=t[k];else el.textContent=t[k];}});
+  $('.chip-txt','hero.chip');
+  $$('.hs-label',['hero.loc.label','hero.spec.label','hero.accred.label','hero.status.label']);
+  $$('.hs-val',['hero.loc.val','hero.spec.val','hero.accred.val','hero.status.val'],true);
+  $('.hsi-txt','hero.scroll');
+  $('.eco-label','eco.label');
+  $$('.eco-status',['eco.itpark.status','eco.aifc.status','eco.hub.status']);
+  $$('.eco-desc',['eco.itpark.desc','eco.aifc.desc','eco.hub.desc']);
+  $('.cl-header','clients.header');
+  $$('.mf-side .s-label',['about.label']);$$('.mf-side p',['about.desc']);$('#mfBody','manifesto',true);
+  $('.sv-title','sv.title',true);$('.sv-hint','sv.hint',true);
+  $$('.sv-name',['sv1.name','sv2.name','sv3.name','sv4.name','sv5.name'],true);
+  $$('.sv-desc',['sv1.desc','sv2.desc','sv3.desc','sv4.desc','sv5.desc']);
+  $$('.st-l',['stats.l1','stats.l2','stats.l3','stats.l4']);
+  $$('#testimonials .s-label',['testi.label']);
+  $$('.tm-text',['tm1.text','tm2.text','tm3.text','tm4.text']);
+  $$('.tm-who',['tm1.who','tm2.who','tm3.who','tm4.who'],true);
+  $('.wk-title','work.title',true);$('.wk-all','work.all');
+  $$('.wk-tag',['wk1.tag','wk2.tag','wk3.tag']);$$('.wk-name',['wk1.name','wk2.name','wk3.name'],true);
+  $$('#process .s-label',['pr.label']);$('.pr-title','pr.title',true);
+  $$('.pr-t',['pr1.title','pr2.title','pr3.title','pr4.title'],true);
+  $$('.pr-d',['pr1.desc','pr2.desc','pr3.desc','pr4.desc']);
+  $$('#team .s-label',['team.label']);$('.tm-ht','team.title',true);$('.tm-hp','team.desc');
+  $$('.tm-role',['m1.role','m2.role','m3.role','m4.role']);$$('.tm-xp',['m1.xp','m2.xp','m3.xp','m4.xp']);
+  $$('#tech .s-label',['tech.label']);$('.tc-left h2','tech.title',true);$('.tc-left p','tech.desc');
+  $$('#faq .s-label',['faq.label']);$('.fq-ht','faq.title',true);$('.fq-hp','faq.subtitle');
+  document.querySelectorAll('.fq-q').forEach((el,i)=>{const key=['fq1.q','fq2.q','fq3.q','fq4.q','fq5.q','fq6.q'][i];if(key&&t[key]){const tog=el.querySelector('.fq-t');el.textContent=t[key];if(tog)el.appendChild(tog);}});
+  $$('.fq-a-inner',['fq1.a','fq2.a','fq3.a','fq4.a','fq5.a','fq6.a']);
+  $('.ct-pre','ct.pre');$('.ct-title','ct.title',true);$('.ft-copy','footer.copy',true);
+  updateCalcTimeline();
+}
+setLang(curLang);
+
+/* CURSOR */
+(function(){
+  const canvas=document.getElementById('cursor-canvas');
+  const ctx=canvas.getContext('2d');
+  const lerp=(a,b,f)=>a+(b-a)*f;
+  let mx=-200,my=-200;
+  let dx=-200,dy=-200,rx=-200,ry=-200;
+  let hovering=false,pressing=false;
+
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+
+  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  document.addEventListener('mouseleave',()=>{mx=-200;my=-200;});
+
+  document.querySelectorAll('a,button,img,input,textarea,select,.sv-trigger,.wk-card,.pr-step,.tc-tag,.fq-q,.tm-member,.cl-chip').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{hovering=true;});
+    el.addEventListener('mouseleave',()=>{hovering=false;});
+  });
+  document.addEventListener('mousedown',()=>{pressing=true;});
+  document.addEventListener('mouseup',()=>{pressing=false;});
+
+  function draw(){
+    canvas.width=canvas.width;
+    dx=lerp(dx,mx,0.2);dy=lerp(dy,my,0.2);
+    rx=lerp(rx,mx,0.1);ry=lerp(ry,my,0.1);
+    if(dx<-150){requestAnimationFrame(draw);return;}
+
+    const dotR=pressing?5:4;
+    const ringR=hovering?22:14;
+
+    // dot — тёмный на светлой странице
+    ctx.beginPath();
+    ctx.arc(dx,dy,dotR,0,Math.PI*2);
+    ctx.fillStyle=hovering?'#D4002A':'#0E0D0B';
+    ctx.fill();
+
+    // ring
+    ctx.beginPath();
+    ctx.arc(rx,ry,ringR,0,Math.PI*2);
+    ctx.strokeStyle=hovering?'#D4002A':'rgba(14,13,11,0.4)';
+    ctx.lineWidth=1.5;
+    ctx.stroke();
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* MODAL */
+const modalOverlay=document.getElementById('modal-overlay');
+function openModal(){modalOverlay.classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){modalOverlay.classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.open-modal').forEach(b=>b.addEventListener('click',openModal));
+document.querySelector('.modal-bg').addEventListener('click',closeModal);
+document.querySelector('.modal-close').addEventListener('click',closeModal);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.getElementById('modal-form').addEventListener('submit',function(e){e.preventDefault();const name=this.querySelector('#mName').value,contact=this.querySelector('#mContact').value,msg=this.querySelector('#mMsg').value;window.location.href=`mailto:hello@wavelabs.uz?subject=New%20Project%20from%20${encodeURIComponent(name)}&body=${encodeURIComponent('Name: '+name+'\nContact: '+contact+'\nProject: '+msg)}`;closeModal();});
+document.getElementById('ct-form').addEventListener('submit',function(e){e.preventDefault();const name=document.getElementById('ctName').value,contact=document.getElementById('ctContact').value,msg=document.getElementById('ctMsg').value,btn=this.querySelector('.ct-submit');btn.textContent='Sending...';window.location.href=`mailto:hello@wavelabs.uz?subject=New%20Project%20from%20${encodeURIComponent(name)}&body=${encodeURIComponent('Name: '+name+'\nContact: '+contact+'\nProject: '+msg)}`;setTimeout(()=>{btn.textContent='Sent ✓';},800);});
+
+/* CALCULATOR */
+const BASE={startup:{lo:15000,hi:30000,weeks:'6 – 10'},smb:{lo:30000,hi:80000,weeks:'10 – 18'},enterprise:{lo:80000,hi:250000,weeks:'18 – 36'}};
+const MULT={fintech:1.3,health:1.2,logistics:1.1,ecom:1.0,realestate:0.95,other:1.0};
+const EUR_R=0.92,UZS_R=12700;
+function fmt(n){return n>=1000000?(n/1000000).toFixed(1)+'M':n>=1000?Math.round(n/1000)+'k':n;}
+function calcUpdate(){const scale=document.getElementById('calcScale').value,ind=document.getElementById('calcIndustry').value,b=BASE[scale],m=MULT[ind]||1,lo=Math.round(b.lo*m),hi=Math.round(b.hi*m);document.getElementById('calcUSD').textContent='$'+fmt(lo)+' – $'+fmt(hi);document.getElementById('calcEUR').textContent='€'+fmt(Math.round(lo*EUR_R))+' – €'+fmt(Math.round(hi*EUR_R));document.getElementById('calcUZS').textContent=fmt(Math.round(lo*UZS_R/1000000)*1000000)+'–'+fmt(Math.round(hi*UZS_R));updateCalcTimeline(scale);}
+function updateCalcTimeline(scale){const s=scale||document.getElementById('calcScale').value;const tl=document.getElementById('calcTimeline');if(tl){const lab=T[curLang]&&T[curLang]['calc.timeline']||'Estimated timeline:';tl.innerHTML=lab+' <span>'+BASE[s].weeks+' weeks</span>';}}
+document.getElementById('calcScale').addEventListener('change',calcUpdate);
+document.getElementById('calcIndustry').addEventListener('change',calcUpdate);
+calcUpdate();
+let kpLang=curLang;
+function renderKP(l){kpLang=l;document.querySelectorAll('.calc-kp-lang button').forEach(b=>b.classList.remove('active'));const b=document.getElementById('kpl-'+l);if(b)b.classList.add('active');generateKP();}
+function generateKP(){const idea=document.getElementById('calcIdea').value.trim()||'AI system',scale=document.getElementById('calcScale').value,ind=document.getElementById('calcIndustry').value,b=BASE[scale],m=MULT[ind]||1,lo=Math.round(b.lo*m),hi=Math.round(b.hi*m),indName={fintech:'FinTech',ecom:'E-Commerce',logistics:'Logistics',health:'Healthcare',realestate:'Real Estate',other:'Technology'}[ind],dateStr=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});const kp={en:`COMMERCIAL PROPOSAL\nWaveLabs AI Engineering Studio\nDate: ${dateStr}\n\nPROJECT: ${idea}\n\nSCOPE\nBased on your brief, WaveLabs proposes a ${indName} AI solution tailored to your ${scale==='enterprise'?'enterprise':scale==='smb'?'SMB':'early-stage'} business context.\n\nINVESTMENT\n$${fmt(lo)} – $${fmt(hi)} USD\n€${fmt(Math.round(lo*EUR_R))} – €${fmt(Math.round(hi*EUR_R))} EUR\nFlexible payment structure available.\n\nTIMELINE\n${b.weeks} weeks to production-ready system.\n\nWHAT YOU GET\n→ C-Level direct engagement (no account managers)\n→ Weekly delivery milestones\n→ 60-day post-launch support included\n→ IP fully owned by your company\n\nNEXT STEP\nhello@wavelabs.uz | IT Park · AIFC · Astana Hub`,ru:`КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ\nWaveLabs AI Engineering Studio\nДата: ${dateStr}\n\nПРОЕКТ: ${idea}\n\nЗАДАЧА\nWaveLabs предлагает AI-решение для ${indName}-сектора.\n\nИНВЕСТИЦИЯ\n$${fmt(lo)} – $${fmt(hi)} USD\n€${fmt(Math.round(lo*EUR_R))} – €${fmt(Math.round(hi*EUR_R))} EUR\n\nСРОКИ\n${b.weeks} недель до продакшн-готового решения.\n\nЧТО ВЫ ПОЛУЧАЕТЕ\n→ Прямое взаимодействие с C-Level командой\n→ Еженедельные поставки\n→ 60 дней поддержки после запуска\n→ IP полностью ваш\n\nhello@wavelabs.uz | IT Park · AIFC · Astana Hub`,uz:`TIJORAT TAKLIFI\nWaveLabs AI Engineering Studio\nSana: ${dateStr}\n\nLOYIHA: ${idea}\n\nVAZIFA\nWaveLabs ${indName} sektori uchun AI yechim taklif etadi.\n\nINVESTITSIYA\n$${fmt(lo)} – $${fmt(hi)} USD\n€${fmt(Math.round(lo*EUR_R))} – €${fmt(Math.round(hi*EUR_R))} EUR\n\nMUDDAT\n${b.weeks} hafta.\n\nNIMONI OLASIZ\n→ C-Level jamoa bilan to'g'ridan-to'g'ri aloqa\n→ Haftalik yetkazib berish\n→ 60 kunlik qo'llab-quvvatlash\n→ IP to'liq sizniki\n\nhello@wavelabs.uz | IT Park · AIFC · Astana Hub`};const out=document.getElementById('calcKpOut');out.textContent=kp[kpLang]||kp.en;out.classList.add('show');}
+document.getElementById('calcKpBtn').addEventListener('click',()=>{document.getElementById('calcKpLang').style.display='flex';renderKP(curLang);});
+</script>
+
+</body>
+</html>

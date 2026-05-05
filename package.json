@@ -1,0 +1,40 @@
+{
+  "name": "wavelabs-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "npm run build && PLAYWRIGHT_BROWSERS_PATH=.ms-playwright playwright test",
+    "e2e:install": "PLAYWRIGHT_BROWSERS_PATH=.ms-playwright playwright install chromium"
+  },
+  "dependencies": {
+    "gsap": "latest",
+    "lenis": "^1.3.23",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "split-type": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "latest",
+    "@playwright/test": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "jsdom": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
+  }
+}
