@@ -58,7 +58,9 @@ describe("i18n", () => {
     expect(translate("en", "hero.title.3")).toBe("From prototype to prod");
     expect(translate("ru", "hero.title.1")).toBe("AI-инженерия для");
     expect(translate("uz", "hero.title.2")).toBe("AI muhandisligi");
-    expect(translate("en", "hero.sub")).toMatch(/under your data laws/i);
+    expect(translate("en", "hero.sub")).toBe(
+      "We build AI products under your data laws and your timelines. KZ + UZ. Banking, telecom, retail."
+    );
     expect(translate("en", "hero.chip")).toBe("AI engineering studio · Tashkent · Almaty");
     expect(translate("ru", "hero.loc.val")).toBe("Ташкент + Алматы");
     expect(translate("en", "hero.status.val")).toBe("Taking 2 projects this quarter");
