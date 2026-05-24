@@ -92,6 +92,12 @@ export const services = [
   { n: "05", name: "sv5.name", desc: "sv5.desc", tags: ["Strategy", "Architecture", "Change Mgmt"] }
 ];
 
+if (services.length !== assets.serviceIcons.length) {
+  throw new Error(
+    `services (${services.length}) and assets.serviceIcons (${assets.serviceIcons.length}) length mismatch`
+  );
+}
+
 export const stats: StatItem[] = [
   { value: "4", suffix: "", label: "stats.l1", evidence: "stats.l1.ev" },
   { value: "3", suffix: "y", label: "stats.l2", evidence: "stats.l2.ev" },

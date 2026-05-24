@@ -286,7 +286,7 @@ export function WaveLabsApp() {
             <span className="hero-line hero-line--outline">{t("hero.title.3")}</span>
           </h1>
 
-          <Html tag="p" className="hero-sub-lead" html={t("hero.sub")} />
+          <p className="hero-sub-lead">{t("hero.sub")}</p>
 
           <div className="hero-sub-row">
             {[

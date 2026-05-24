@@ -44,7 +44,8 @@ test("phase A: service icons and stat evidence render", async ({ page }) => {
   await expect(page.locator("#stats .st-evidence")).toHaveCount(4);
   // copy spot-check
   await expect(page.locator(".hero-chip")).toContainText("Tashkent");
-  await expect(page.locator("#stats")).toContainText("senior engineers");
+  await expect(page.locator("#stats .st-evidence").first()).toContainText("every project led by founders");
+  await expect(page.locator(".hero-sub-lead")).toContainText("AI products under your data laws");
 });
 
 test("renders a stable mobile first screen", async ({ page }) => {

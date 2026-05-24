@@ -574,7 +574,8 @@ footer { padding:44px 48px; border-top:1px solid var(--line); display:grid; grid
 .fq-q,
 .ct-email,
 .calc-kp-output,
-.modal-sub {
+.modal-sub,
+.st-evidence {
   overflow-wrap:anywhere;
 }
 
