@@ -46,5 +46,9 @@ describe("i18n", () => {
     expect(Object.keys(assets.industryPresets).sort()).toEqual(
       ["banking", "fmcg", "government", "retail", "telecom"]
     );
+    expect(assets.industryPresets.banking).toHaveLength(3);
+    expect(assets.industryPresets.banking[0]).toHaveProperty("image");
+    expect(assets.industryPresets.banking[0]).toHaveProperty("useCaseKey");
+    expect(assets.industryPresets.banking[0]).toHaveProperty("outcomeKey");
   });
 });

@@ -126,9 +126,9 @@ industryPresets: {
     { image: "/media/ind-fmcg-03.webp", useCaseKey: "ind.fmcg.c3.uc", outcomeKey: "ind.fmcg.c3.out" }
   ],
   government: [
-    { image: "/media/ind-government-01.webp", useCaseKey: "ind.gov.c1.uc", outcomeKey: "ind.gov.c1.out" },
-    { image: "/media/ind-government-02.webp", useCaseKey: "ind.gov.c2.uc", outcomeKey: "ind.gov.c2.out" },
-    { image: "/media/ind-government-03.webp", useCaseKey: "ind.gov.c3.uc", outcomeKey: "ind.gov.c3.out" }
+    { image: "/media/ind-gov-01.webp", useCaseKey: "ind.gov.c1.uc", outcomeKey: "ind.gov.c1.out" },
+    { image: "/media/ind-gov-02.webp", useCaseKey: "ind.gov.c2.uc", outcomeKey: "ind.gov.c2.out" },
+    { image: "/media/ind-gov-03.webp", useCaseKey: "ind.gov.c3.uc", outcomeKey: "ind.gov.c3.out" }
   ]
 }
 ```
@@ -550,7 +550,7 @@ Workspace credits checkpoint: ~5258 credits available; stakeholder direction is 
 - Create: `public/media/process.{mp4,webm}`
 - Create: `public/media/contact.{mp4,webm}`
 - Create: `public/media/hero.{mp4,webm}`
-- Create: `public/media/ind-{banking,retail,telecom,fmcg,government}-{01..03}.webp`
+- Create: `public/media/ind-{banking,retail,telecom,fmcg,gov}-{01..03}.webp` (note: government industry uses the short `gov` slug per spec asset pipeline)
 - Modify: `data/site.ts` — replace remaining CDN URLs in `assets.heroVideo`, `processVideo`, `contactVideo`, `workImages` with local `/media/...` paths.
 
 - [ ] **Step 1: Sanity-check Higgsfield workspace + balance**
@@ -620,7 +620,7 @@ mcp__claude_ai_higgsfield__virality_predictor
 
 Keep the top 3 of 5 candidates per industry by combined score (virality + on-brief grade). Discard the rest. virality_predictor acts as the curation gate for thumbnails since they go into the user-facing Industry Presets tabs in Phase C.
 
-Save the 15 selected outputs to `public/media/ind-{industry}-{01..03}.webp` at ≤ 180 KB each.
+Save the 15 selected outputs to `public/media/ind-{industry}-{01..03}.webp` at ≤ 180 KB each. Industry slugs: `banking`, `retail`, `telecom`, `fmcg`, `gov` (the government industry uses the short `gov` slug — match `data/site.ts`).
 
 - [ ] **Step 5: Generate Process background video (Seedance 1.5, cheap motion)**
 

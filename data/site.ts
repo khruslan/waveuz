@@ -1,4 +1,32 @@
-import type { CompanyScale, Industry, StatItem } from "@/lib/types";
+import type { CompanyScale, IndustryPresetCard, Industry, StatItem } from "@/lib/types";
+
+const industryPresets = {
+  banking: [
+    { image: "/media/ind-banking-01.webp", useCaseKey: "ind.banking.c1.uc", outcomeKey: "ind.banking.c1.out" },
+    { image: "/media/ind-banking-02.webp", useCaseKey: "ind.banking.c2.uc", outcomeKey: "ind.banking.c2.out" },
+    { image: "/media/ind-banking-03.webp", useCaseKey: "ind.banking.c3.uc", outcomeKey: "ind.banking.c3.out" }
+  ],
+  retail: [
+    { image: "/media/ind-retail-01.webp", useCaseKey: "ind.retail.c1.uc", outcomeKey: "ind.retail.c1.out" },
+    { image: "/media/ind-retail-02.webp", useCaseKey: "ind.retail.c2.uc", outcomeKey: "ind.retail.c2.out" },
+    { image: "/media/ind-retail-03.webp", useCaseKey: "ind.retail.c3.uc", outcomeKey: "ind.retail.c3.out" }
+  ],
+  telecom: [
+    { image: "/media/ind-telecom-01.webp", useCaseKey: "ind.telecom.c1.uc", outcomeKey: "ind.telecom.c1.out" },
+    { image: "/media/ind-telecom-02.webp", useCaseKey: "ind.telecom.c2.uc", outcomeKey: "ind.telecom.c2.out" },
+    { image: "/media/ind-telecom-03.webp", useCaseKey: "ind.telecom.c3.uc", outcomeKey: "ind.telecom.c3.out" }
+  ],
+  fmcg: [
+    { image: "/media/ind-fmcg-01.webp", useCaseKey: "ind.fmcg.c1.uc", outcomeKey: "ind.fmcg.c1.out" },
+    { image: "/media/ind-fmcg-02.webp", useCaseKey: "ind.fmcg.c2.uc", outcomeKey: "ind.fmcg.c2.out" },
+    { image: "/media/ind-fmcg-03.webp", useCaseKey: "ind.fmcg.c3.uc", outcomeKey: "ind.fmcg.c3.out" }
+  ],
+  government: [
+    { image: "/media/ind-gov-01.webp", useCaseKey: "ind.gov.c1.uc", outcomeKey: "ind.gov.c1.out" },
+    { image: "/media/ind-gov-02.webp", useCaseKey: "ind.gov.c2.uc", outcomeKey: "ind.gov.c2.out" },
+    { image: "/media/ind-gov-03.webp", useCaseKey: "ind.gov.c3.uc", outcomeKey: "ind.gov.c3.out" }
+  ]
+} satisfies Record<string, IndustryPresetCard[]>;
 
 export const assets = {
   heroVideo:
@@ -19,33 +47,7 @@ export const assets = {
     "/media/svc-04.webm",
     "/media/svc-05.webm"
   ],
-  industryPresets: {
-    banking: [
-      { image: "/media/ind-banking-01.webp", useCaseKey: "ind.banking.c1.uc", outcomeKey: "ind.banking.c1.out" },
-      { image: "/media/ind-banking-02.webp", useCaseKey: "ind.banking.c2.uc", outcomeKey: "ind.banking.c2.out" },
-      { image: "/media/ind-banking-03.webp", useCaseKey: "ind.banking.c3.uc", outcomeKey: "ind.banking.c3.out" }
-    ],
-    retail: [
-      { image: "/media/ind-retail-01.webp", useCaseKey: "ind.retail.c1.uc", outcomeKey: "ind.retail.c1.out" },
-      { image: "/media/ind-retail-02.webp", useCaseKey: "ind.retail.c2.uc", outcomeKey: "ind.retail.c2.out" },
-      { image: "/media/ind-retail-03.webp", useCaseKey: "ind.retail.c3.uc", outcomeKey: "ind.retail.c3.out" }
-    ],
-    telecom: [
-      { image: "/media/ind-telecom-01.webp", useCaseKey: "ind.telecom.c1.uc", outcomeKey: "ind.telecom.c1.out" },
-      { image: "/media/ind-telecom-02.webp", useCaseKey: "ind.telecom.c2.uc", outcomeKey: "ind.telecom.c2.out" },
-      { image: "/media/ind-telecom-03.webp", useCaseKey: "ind.telecom.c3.uc", outcomeKey: "ind.telecom.c3.out" }
-    ],
-    fmcg: [
-      { image: "/media/ind-fmcg-01.webp", useCaseKey: "ind.fmcg.c1.uc", outcomeKey: "ind.fmcg.c1.out" },
-      { image: "/media/ind-fmcg-02.webp", useCaseKey: "ind.fmcg.c2.uc", outcomeKey: "ind.fmcg.c2.out" },
-      { image: "/media/ind-fmcg-03.webp", useCaseKey: "ind.fmcg.c3.uc", outcomeKey: "ind.fmcg.c3.out" }
-    ],
-    government: [
-      { image: "/media/ind-government-01.webp", useCaseKey: "ind.gov.c1.uc", outcomeKey: "ind.gov.c1.out" },
-      { image: "/media/ind-government-02.webp", useCaseKey: "ind.gov.c2.uc", outcomeKey: "ind.gov.c2.out" },
-      { image: "/media/ind-government-03.webp", useCaseKey: "ind.gov.c3.uc", outcomeKey: "ind.gov.c3.out" }
-    ]
-  }
+  industryPresets
 };
 
 export const navItems = [
