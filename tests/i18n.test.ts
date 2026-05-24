@@ -51,4 +51,23 @@ describe("i18n", () => {
     expect(assets.industryPresets.banking[0]).toHaveProperty("useCaseKey");
     expect(assets.industryPresets.banking[0]).toHaveProperty("outcomeKey");
   });
+
+  it("hero uses vertical positioning copy in all locales", () => {
+    expect(translate("en", "hero.title.1")).toBe("AI engineering for");
+    expect(translate("en", "hero.title.2")).toBe("Central Asian enterprises");
+    expect(translate("en", "hero.title.3")).toBe("From prototype to prod");
+    expect(translate("ru", "hero.title.1")).toBe("AI-инженерия для");
+    expect(translate("uz", "hero.title.2")).toBe("AI muhandisligi");
+    expect(translate("en", "hero.sub")).toMatch(/under your data laws/i);
+    expect(translate("en", "hero.chip")).toBe("AI engineering studio · Tashkent · Almaty");
+    expect(translate("ru", "hero.loc.val")).toBe("Ташкент + Алматы");
+    expect(translate("en", "hero.status.val")).toBe("Taking 2 projects this quarter");
+  });
+
+  it("stats use honest signals and have evidence copy", () => {
+    expect(translate("en", "stats.l1")).toBe("senior engineers");
+    expect(translate("en", "stats.l1.ev")).toBe("every project led by founders, not juniors");
+    expect(translate("ru", "stats.l3")).toBe("страны");
+    expect(translate("uz", "stats.l4")).toContain("loyiha");
+  });
 });
