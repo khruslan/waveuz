@@ -36,3 +36,16 @@ export interface LeadPayload {
   source: "modal" | "contact" | "calculator";
   estimate?: string;
 }
+
+export type StatItem = {
+  value: string;
+  suffix: string;
+  label: string;
+  evidence: string;
+};
+
+export type IndustryPresetCard = {
+  image: string;
+  useCaseKey: string;
+  outcomeKey: string;
+};

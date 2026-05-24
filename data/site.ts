@@ -1,4 +1,4 @@
-import type { CompanyScale, Industry } from "@/lib/types";
+import type { CompanyScale, Industry, StatItem } from "@/lib/types";
 
 export const assets = {
   heroVideo:
@@ -11,7 +11,41 @@ export const assets = {
     "https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_070444_33348abc-7437-432e-a702-aae6858faa23_min.webp",
     "https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_070441_1c6408bb-1d2a-46d0-a8fb-16c26d5cc6c6_min.webp",
     "https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_070447_0d3bd4c5-38d7-4beb-874f-95c497bcd818_min.webp"
-  ]
+  ],
+  serviceIcons: [
+    "/media/svc-01.webm",
+    "/media/svc-02.webm",
+    "/media/svc-03.webm",
+    "/media/svc-04.webm",
+    "/media/svc-05.webm"
+  ],
+  industryPresets: {
+    banking: [
+      { image: "/media/ind-banking-01.webp", useCaseKey: "ind.banking.c1.uc", outcomeKey: "ind.banking.c1.out" },
+      { image: "/media/ind-banking-02.webp", useCaseKey: "ind.banking.c2.uc", outcomeKey: "ind.banking.c2.out" },
+      { image: "/media/ind-banking-03.webp", useCaseKey: "ind.banking.c3.uc", outcomeKey: "ind.banking.c3.out" }
+    ],
+    retail: [
+      { image: "/media/ind-retail-01.webp", useCaseKey: "ind.retail.c1.uc", outcomeKey: "ind.retail.c1.out" },
+      { image: "/media/ind-retail-02.webp", useCaseKey: "ind.retail.c2.uc", outcomeKey: "ind.retail.c2.out" },
+      { image: "/media/ind-retail-03.webp", useCaseKey: "ind.retail.c3.uc", outcomeKey: "ind.retail.c3.out" }
+    ],
+    telecom: [
+      { image: "/media/ind-telecom-01.webp", useCaseKey: "ind.telecom.c1.uc", outcomeKey: "ind.telecom.c1.out" },
+      { image: "/media/ind-telecom-02.webp", useCaseKey: "ind.telecom.c2.uc", outcomeKey: "ind.telecom.c2.out" },
+      { image: "/media/ind-telecom-03.webp", useCaseKey: "ind.telecom.c3.uc", outcomeKey: "ind.telecom.c3.out" }
+    ],
+    fmcg: [
+      { image: "/media/ind-fmcg-01.webp", useCaseKey: "ind.fmcg.c1.uc", outcomeKey: "ind.fmcg.c1.out" },
+      { image: "/media/ind-fmcg-02.webp", useCaseKey: "ind.fmcg.c2.uc", outcomeKey: "ind.fmcg.c2.out" },
+      { image: "/media/ind-fmcg-03.webp", useCaseKey: "ind.fmcg.c3.uc", outcomeKey: "ind.fmcg.c3.out" }
+    ],
+    government: [
+      { image: "/media/ind-government-01.webp", useCaseKey: "ind.gov.c1.uc", outcomeKey: "ind.gov.c1.out" },
+      { image: "/media/ind-government-02.webp", useCaseKey: "ind.gov.c2.uc", outcomeKey: "ind.gov.c2.out" },
+      { image: "/media/ind-government-03.webp", useCaseKey: "ind.gov.c3.uc", outcomeKey: "ind.gov.c3.out" }
+    ]
+  }
 };
 
 export const navItems = [
@@ -56,11 +90,11 @@ export const services = [
   { n: "05", name: "sv5.name", desc: "sv5.desc", tags: ["Strategy", "Architecture", "Change Mgmt"] }
 ];
 
-export const stats = [
-  { value: "50", suffix: "+", label: "stats.l1" },
-  { value: "340", suffix: "%", label: "stats.l2" },
-  { value: "2", suffix: ".5x", label: "stats.l3" },
-  { value: "100", suffix: "%", label: "stats.l4" }
+export const stats: StatItem[] = [
+  { value: "4", suffix: "", label: "stats.l1", evidence: "stats.l1.ev" },
+  { value: "3", suffix: "y", label: "stats.l2", evidence: "stats.l2.ev" },
+  { value: "2", suffix: "", label: "stats.l3", evidence: "stats.l3.ev" },
+  { value: "12", suffix: "+", label: "stats.l4", evidence: "stats.l4.ev" }
 ];
 
 export const testimonials = [
