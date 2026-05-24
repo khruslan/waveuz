@@ -42,4 +42,8 @@ test("renders a stable mobile first screen", async ({ page }) => {
   await expect(page.locator("#hero")).toBeVisible();
   await expect(page.locator(".hero-title")).toBeVisible();
   await expect(page.locator(".nav-logo")).toBeVisible();
+  await expect(page.locator(".tm-member")).toHaveCount(4);
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)
+  ).toBe(true);
 });

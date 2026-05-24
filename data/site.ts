@@ -84,10 +84,10 @@ export const processSteps = [
 ];
 
 export const teamMembers = [
-  { initials: "AB", name: "Arslon B.", role: "m1.role", xp: "m1.xp" },
-  { initials: "JT", name: "Jasur T.", role: "m2.role", xp: "m2.xp" },
-  { initials: "KN", name: "Kamola N.", role: "m3.role", xp: "m3.xp" },
-  { initials: "TK", name: "Timur K.", role: "m4.role", xp: "m4.xp" }
+  { initials: "AR", name: "Anel Ryspaeva", role: "m1.role", xp: "team.source" },
+  { initials: "EK", name: "Emil Khusnutdinov", role: "m2.role", xp: "team.source" },
+  { initials: "RK", name: "Ruslan Khusenov", role: "m3.role", xp: "team.source" },
+  { initials: "MS", name: "Madina Saylaubayeva", role: "m4.role", xp: "team.source" }
 ];
 
 export const techTags = [

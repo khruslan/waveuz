@@ -247,7 +247,7 @@ export function WaveLabsApp() {
             </li>
           ))}
         </ul>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div className="nav-actions">
           <div className="lang-sw" aria-label={t("lang.switcher")}>
             {(["en", "ru", "uz"] as Locale[]).map((item) => (
               <button
@@ -304,7 +304,7 @@ export function WaveLabsApp() {
             <span className="hero-line hero-line--outline">{t("hero.title.3")}</span>
           </h1>
 
-          <div className="hero-sub-row" style={{ gridTemplateColumns: "1fr 1fr 1fr 1fr" }}>
+          <div className="hero-sub-row">
             {[
               ["hero.loc.label", "hero.loc.val"],
               ["hero.spec.label", "hero.spec.val"],
@@ -559,7 +559,7 @@ export function WaveLabsApp() {
 
       <section id="calculator">
         <SectionLabel n="08">{t("calc.label")}</SectionLabel>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 60 }}>
+        <div className="calc-head">
           <Html tag="h2" className="calc-title rv" html={t("calc.title")} />
           <Html tag="p" className="calc-sub rv d1" html={t("calc.sub")} />
         </div>
