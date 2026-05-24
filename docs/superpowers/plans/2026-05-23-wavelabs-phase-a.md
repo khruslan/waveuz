@@ -542,7 +542,7 @@ git commit -m "feat(phase-a): render service icons + stat evidence + hero subhea
 
 This is the cost-aware operational task. Run all generations through the Higgsfield MCP tools available in this session. Each generation is a separate tool call. Order matters: cheap iconography first, expensive hero/work last so we calibrate the grade before spending Veo credits.
 
-Workspace credits checkpoint: current balance ~5258 credits. Each Veo 3.1 generation at quality `high` is the most expensive bucket; budget ~10-15% of remaining credits for Phase A.
+Workspace credits checkpoint: ~5258 credits available; stakeholder direction is **do not economize**. Use the highest-quality bucket of each model by default (Veo 3.1 quality `ultra`, Nano Banana Pro `4k`, Soul Cinema `2k`). Regenerate freely if grade is not on-target — second and third candidates are expected, not a fallback.
 
 **Files:**
 - Create: `public/media/svc-{01..05}.webm`
@@ -607,18 +607,18 @@ Acceptance: side-by-side comparison reads as one cinematic series.
 
 - [ ] **Step 4: Generate 15 industry preset thumbnails (Nano Banana Pro)**
 
-5 industries × 3 cards. For each, call `generate_image` with model `nano_banana_pro`, aspect ratio `3:2`, resolution `4k`, prompt from spec section "6. Industry preset thumbnails":
+5 industries × 5 candidates × 1 final selection per slot = 15 finals. For each industry, call `generate_image` 5 times with model `nano_banana_pro`, aspect ratio `3:2`, resolution `4k`, prompt from spec section "6. Industry preset thumbnails":
 
 > "{industry abstract metaphor}, dark editorial composition, cyan rim light #00D4FF, magenta caustic flare #FF2D6B, anamorphic 35mm lens, cinematic"
 
 Substitute metaphors per spec (banking → vaulted geometric tunnels; retail → fractal shelves; telecom → signal mesh; fmcg → liquid material studies; government → monumental stone forms).
 
-For each, also call:
+For each candidate, also call:
 ```
 mcp__claude_ai_higgsfield__virality_predictor
 ```
 
-Keep the top 3 of 5 candidates per industry by score. Discard the rest. This is the only place in Phase A where virality_predictor is consulted — it acts as the curation gate for thumbnails since they go into the user-facing Industry Presets tabs in Phase C.
+Keep the top 3 of 5 candidates per industry by combined score (virality + on-brief grade). Discard the rest. virality_predictor acts as the curation gate for thumbnails since they go into the user-facing Industry Presets tabs in Phase C.
 
 Save the 15 selected outputs to `public/media/ind-{industry}-{01..03}.webp` at ≤ 180 KB each.
 
@@ -645,13 +645,13 @@ Save as `public/media/contact.mp4` and `contact.webm`. ≤ 3 MB combined.
 
 - [ ] **Step 7: Generate Hero background video (Veo 3.1 ultra — top spend)**
 
-Call `generate_video` with model `veo3_1`, quality `high` (do not use `ultra` unless `high` does not pass acceptance — that doubles spend), model variant `veo-3-1-fast`, aspect ratio `16:9`, duration `8`, prompt from spec section "1. Hero":
+Call `generate_video` with model `veo3_1`, quality `ultra`, model variant `veo-3-1-preview`, aspect ratio `16:9`, duration `8`, prompt from spec section "1. Hero":
 
 > "macro shot of liquid chrome ribbons flowing through dark void, cyan rim light and magenta caustic flares, anamorphic 35mm lens, slow orbital camera, cinematic, seamless loop, no text, no logo"
 
 Save as `public/media/hero.mp4` and `hero.webm`. Combined ≤ 4 MB target. If the loop has a visible cut, regenerate at the same seed with a slightly different end-frame anchor — do not exceed 2 retries.
 
-Acceptance: loops without visible cut; cyan dominates; readable at `opacity: 0.25`.
+Acceptance: loops without visible cut; cyan dominates; readable at `opacity: 0.25`. Regenerate up to 4 candidates if needed and pick the strongest — no cost gate.
 
 - [ ] **Step 8: Update `data/site.ts` to point to local media**
 
