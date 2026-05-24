@@ -35,6 +35,18 @@ test("theme, language, calculator and lead modal work", async ({ page }) => {
   await expect(modal.locator(".modal-submit")).toHaveText("Sent");
 });
 
+test("phase A: service icons and stat evidence render", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#loader.out").waitFor({ timeout: 6_000 });
+  // service icons: 5 video elements inside the services track
+  await expect(page.locator("#svTrack .sv-icon")).toHaveCount(5);
+  // stat evidence: 4 short lines under stats
+  await expect(page.locator("#stats .st-evidence")).toHaveCount(4);
+  // copy spot-check
+  await expect(page.locator(".hero-chip")).toContainText("Tashkent");
+  await expect(page.locator("#stats")).toContainText("senior engineers");
+});
+
 test("renders a stable mobile first screen", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");

@@ -19,7 +19,7 @@ import {
   workItems
 } from "@/data/site";
 import { calculateEstimate, generateProposal } from "@/lib/calculator";
-import { detectLocale, isLocale, translate, translateList } from "@/lib/i18n";
+import { detectLocale, isLocale, translate } from "@/lib/i18n";
 import type { CalculatorInput, LeadPayload, Locale, Theme } from "@/lib/types";
 import { useWaveAnimations } from "@/components/useWaveAnimations";
 
@@ -123,7 +123,6 @@ export function WaveLabsApp() {
   const [loaderOut, setLoaderOut] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [modalEstimate, setModalEstimate] = useState<string | undefined>();
-  const [heroChipIndex, setHeroChipIndex] = useState(0);
   const [calculatorInput, setCalculatorInput] = useState<CalculatorInput>({
     idea: "",
     industry: "fintech",
@@ -140,11 +139,6 @@ export function WaveLabsApp() {
     () => generateProposal(calculatorInput, proposalLocale),
     [calculatorInput, proposalLocale]
   );
-  const heroPhrases = useMemo(() => {
-    const phrases = translateList(locale, "hero.phrases");
-    return phrases.length ? phrases : [translate(locale, "hero.chip")];
-  }, [locale]);
-  const heroChip = heroPhrases[heroChipIndex % heroPhrases.length] ?? t("hero.chip");
   const timelineText = `${estimate.timelineWeeks} ${t("calc.weeks")}`;
 
   useEffect(() => {
@@ -168,16 +162,6 @@ export function WaveLabsApp() {
     document.documentElement.lang = locale;
     window.localStorage.setItem("wl-lang", locale);
   }, [locale]);
-
-  useEffect(() => {
-    if (heroPhrases.length < 2) return;
-
-    const interval = window.setInterval(() => {
-      setHeroChipIndex((value) => (value + 1) % heroPhrases.length);
-    }, 3800);
-
-    return () => window.clearInterval(interval);
-  }, [heroPhrases.length]);
 
   useEffect(() => {
     let progress = 0;
@@ -292,9 +276,7 @@ export function WaveLabsApp() {
         <div className="hero-body">
           <div className="hero-chip">
             <div className="hero-dot" />
-            <span className="chip-txt" key={heroChip}>
-              {heroChip}
-            </span>
+            <span className="chip-txt">{t("hero.chip")}</span>
           </div>
           <h1 className="hero-title" id="heroTitle">
             <span className="hero-line">{t("hero.title.1")}</span>
@@ -303,6 +285,8 @@ export function WaveLabsApp() {
             <br />
             <span className="hero-line hero-line--outline">{t("hero.title.3")}</span>
           </h1>
+
+          <Html tag="p" className="hero-sub-lead" html={t("hero.sub")} />
 
           <div className="hero-sub-row">
             {[
@@ -390,8 +374,20 @@ export function WaveLabsApp() {
         </div>
         <div className="sv-track-wrap">
           <div className="sv-track" id="svTrack">
-            {services.map((service) => (
+            {services.map((service, idx) => (
               <div className="sv-card" key={service.n}>
+                {assets.serviceIcons[idx] ? (
+                  <video
+                    className="sv-icon"
+                    src={assets.serviceIcons[idx]}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    aria-hidden="true"
+                  />
+                ) : null}
                 <div className="sv-n">{service.n}</div>
                 <Html tag="div" className="sv-name" html={t(service.name)} />
                 <div className="sv-desc">{t(service.desc)}</div>
@@ -419,6 +415,7 @@ export function WaveLabsApp() {
                 <sub>{stat.suffix}</sub>
               </div>
               <div className="st-l">{t(stat.label)}</div>
+              <p className="st-evidence">{t(stat.evidence)}</p>
             </div>
           ))}
         </div>
