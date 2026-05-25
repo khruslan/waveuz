@@ -634,6 +634,7 @@ html[data-theme="light"] .sv-icon {
   font-size: clamp(14px, 1.5vw, 18px);
   color: var(--fg2);
   max-width: 560px;
+  margin-top: 20px;
   margin-bottom: 28px;
   line-height: 1.55;
 }

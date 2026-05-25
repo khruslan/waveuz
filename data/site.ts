@@ -1,5 +1,7 @@
 import type { CompanyScale, IndustryPresetCard, Industry, StatItem } from "@/lib/types";
 
+// Phase C: translation keys below (ind.*) are placeholders.
+// Populate data/translations.generated.json before rendering IndustryPresets section.
 const industryPresets = {
   banking: [
     { image: "/media/ind-banking-01.webp", useCaseKey: "ind.banking.c1.uc", outcomeKey: "ind.banking.c1.out" },

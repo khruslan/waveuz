@@ -66,6 +66,12 @@ describe("i18n", () => {
     expect(translate("en", "hero.status.val")).toBe("Taking 2 projects this quarter");
   });
 
+  it("industryPresets translation keys are placeholders until Phase C", () => {
+    // Intentionally empty until Phase C populates ind.* keys.
+    expect(translate("en", "ind.banking.c1.uc")).toBe("");
+    expect(translate("en", "ind.gov.c3.out")).toBe("");
+  });
+
   it("stats use honest signals and have evidence copy", () => {
     expect(translate("en", "stats.l1")).toBe("senior engineers");
     expect(translate("en", "stats.l1.ev")).toBe("every project led by founders, not juniors");

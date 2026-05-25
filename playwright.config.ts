@@ -6,7 +6,9 @@ export default defineConfig({
   use: {
     baseURL: "http://127.0.0.1:3210",
     trace: "on-first-retry",
-    screenshot: "only-on-failure"
+    screenshot: "only-on-failure",
+    extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9" },
+    locale: "en-US"
   },
   webServer: {
     command: "npm run start -- -p 3210",

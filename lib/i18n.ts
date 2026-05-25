@@ -42,8 +42,8 @@ const extraTranslations: TranslationTable = {
     "scale.enterprise": "Enterprise (500+ people)",
     "lead.sending": "Sending...",
     "lead.sent": "Sent",
-    "lead.error": "Telegram not configured",
-    "lead.error.note": "Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID.",
+    "lead.error": "Could not send — please email us directly.",
+    "lead.error.note": "Our team will reach out within one business day.",
     "modal.close": "Close modal"
   },
   ru: {
@@ -80,8 +80,8 @@ const extraTranslations: TranslationTable = {
     "scale.enterprise": "Enterprise (500+ человек)",
     "lead.sending": "Отправляем...",
     "lead.sent": "Отправлено",
-    "lead.error": "Telegram не настроен",
-    "lead.error.note": "Укажите TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID.",
+    "lead.error": "Не удалось отправить — напишите нам напрямую.",
+    "lead.error.note": "Мы свяжемся в течение одного рабочего дня.",
     "modal.close": "Закрыть окно"
   },
   uz: {
@@ -118,8 +118,8 @@ const extraTranslations: TranslationTable = {
     "scale.enterprise": "Enterprise (500+ kishi)",
     "lead.sending": "Yuborilmoqda...",
     "lead.sent": "Yuborildi",
-    "lead.error": "Telegram sozlanmagan",
-    "lead.error.note": "TELEGRAM_BOT_TOKEN va TELEGRAM_CHAT_ID ni kiriting.",
+    "lead.error": "Yuborib boʻlmadi — bizga toʻgʻridan-toʻgʻri yozing.",
+    "lead.error.note": "Bir ish kuni ichida bogʻlanamiz.",
     "modal.close": "Oynani yopish"
   }
 };
