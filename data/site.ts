@@ -29,16 +29,13 @@ const industryPresets = {
 } satisfies Record<string, IndustryPresetCard[]>;
 
 export const assets = {
-  heroVideo:
-    "https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_072527_8c43c96f-01c2-4600-838a-3963708c2b82.mp4",
-  contactVideo:
-    "https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260502_085519_1bf0b432-3c2f-441f-ae04-3e745477ac3b.mp4",
-  processVideo:
-    "https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260502_085522_8ce00d8f-946d-4a14-8633-9941f8a1d5b4.mp4",
+  heroVideo: "/media/hero.mp4",
+  contactVideo: "/media/contact.mp4",
+  processVideo: "/media/process.mp4",
   workImages: [
-    "https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_070444_33348abc-7437-432e-a702-aae6858faa23_min.webp",
-    "https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_070441_1c6408bb-1d2a-46d0-a8fb-16c26d5cc6c6_min.webp",
-    "https://d8j0ntlcm91z4.cloudfront.net/user_39NRMZdHaPkQW5jWeZlbKtKzopQ/hf_20260430_070447_0d3bd4c5-38d7-4beb-874f-95c497bcd818_min.webp"
+    "/media/work-01.webp",
+    "/media/work-02.webp",
+    "/media/work-03.webp"
   ],
   serviceIcons: [
     "/media/svc-01.webm",
