@@ -130,7 +130,7 @@ nav.stuck { background:rgba(6,6,10,.92); border-bottom-color:var(--line2); }
   background-size:90px 90px;
   mask-image:linear-gradient(to bottom,transparent,rgba(0,0,0,.5) 35%,rgba(0,0,0,.5) 65%,transparent);
 }
-.hero-body { position:relative; z-index:10; }
+.hero-body { position:relative; z-index:10; max-width:1280px; }
 .hero-chip {
   display:inline-flex; align-items:center; gap:10px;
   font-family:var(--f1); font-size:10px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
@@ -147,13 +147,16 @@ nav.stuck { background:rgba(6,6,10,.92); border-bottom-color:var(--line2); }
 
 .hero-title {
   font-family:var(--f1); font-weight:800;
-  font-size:clamp(40px,6.2vw,108px);
-  line-height:.95; letter-spacing:-.025em;
+  font-size:clamp(36px,5vw,88px);
+  line-height:.98; letter-spacing:-.025em;
   margin-bottom:36px;
-  overflow-wrap:anywhere;
-  max-width:min(1100px,100%);
+  overflow-wrap:break-word;
+  word-break:break-word;
+  hyphens:auto;
+  max-width:100%;
 }
-.hero-title .word { white-space:nowrap; display:inline-block; }
+.hero-title .word { display:inline-block; white-space:normal; }
+.hero-line { display:block; max-width:100%; }
 /* chars start visible — GSAP animates FROM state, not TO */
 .hero-title .char { display:inline-block; will-change:transform; opacity:1; }
 .hero-line--accent { color:var(--a); }
