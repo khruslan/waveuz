@@ -267,6 +267,7 @@ export function WaveLabsApp() {
           muted
           loop
           playsInline
+          preload="metadata"
           onCanPlay={() => setHeroVideoReady(true)}
           onError={() => setHeroVideoReady(true)}
         />
@@ -466,6 +467,7 @@ export function WaveLabsApp() {
           muted
           loop
           playsInline
+          preload="metadata"
           style={{
             position: "absolute",
             inset: 0,
@@ -674,6 +676,7 @@ export function WaveLabsApp() {
           muted
           loop
           playsInline
+          preload="metadata"
           style={{
             position: "absolute",
             inset: 0,
