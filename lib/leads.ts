@@ -1,12 +1,26 @@
 import { z } from "zod";
 import type { LeadPayload } from "@/lib/types";
 
+export const utmSchema = z
+  .object({
+    utm_source: z.string().trim().max(180).optional(),
+    utm_medium: z.string().trim().max(180).optional(),
+    utm_campaign: z.string().trim().max(180).optional(),
+    utm_term: z.string().trim().max(180).optional(),
+    utm_content: z.string().trim().max(180).optional()
+  })
+  .strict()
+  .optional();
+
 export const leadPayloadSchema = z.object({
   name: z.string().trim().min(2).max(120),
   contact: z.string().trim().min(3).max(180),
   message: z.string().trim().min(3).max(2_000),
   source: z.enum(["modal", "contact", "calculator"]),
-  estimate: z.string().trim().max(500).optional()
+  estimate: z.string().trim().max(500).optional(),
+  amoVisitorUid: z.string().trim().max(120).optional(),
+  utm: utmSchema,
+  pageUrl: z.string().trim().max(500).optional()
 });
 
 export function escapeTelegramHtml(value: string): string {

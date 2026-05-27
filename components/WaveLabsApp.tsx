@@ -21,6 +21,7 @@ import {
 import { calculateEstimate, generateProposal } from "@/lib/calculator";
 import { detectLocale, isLocale, translate } from "@/lib/i18n";
 import type { CalculatorInput, LeadPayload, Locale, Theme } from "@/lib/types";
+import { captureUtm, getAmoVisitorUid } from "@/lib/attribution";
 import { useWaveAnimations } from "@/components/useWaveAnimations";
 
 function Html({ html, className, tag = "div" }: { html: string; className?: string; tag?: keyof JSX.IntrinsicElements }) {
@@ -67,7 +68,10 @@ function LeadForm({
       contact: String(formData.get("contact") ?? ""),
       message: String(formData.get("message") ?? ""),
       source,
-      estimate
+      estimate,
+      amoVisitorUid: getAmoVisitorUid() || undefined,
+      utm: captureUtm(),
+      pageUrl: typeof window !== "undefined" ? window.location.href : undefined
     };
 
     const response = await fetch("/api/leads", {
@@ -162,6 +166,13 @@ export function WaveLabsApp() {
     document.documentElement.lang = locale;
     window.localStorage.setItem("wl-lang", locale);
   }, [locale]);
+
+  // Capture UTM params from the landing URL once on mount so they persist for
+  // the session and end up on every lead form submission.
+  useEffect(() => {
+    captureUtm();
+    getAmoVisitorUid();
+  }, []);
 
   useEffect(() => {
     let progress = 0;

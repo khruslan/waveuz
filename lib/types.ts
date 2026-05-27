@@ -29,12 +29,23 @@ export interface CalculatorEstimate {
   };
 }
 
+export interface UtmParams {
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_term?: string;
+  utm_content?: string;
+}
+
 export interface LeadPayload {
   name: string;
   contact: string;
   message: string;
   source: "modal" | "contact" | "calculator";
   estimate?: string;
+  amoVisitorUid?: string;
+  utm?: UtmParams;
+  pageUrl?: string;
 }
 
 export type StatItem = {
