@@ -61,8 +61,9 @@ function LeadForm({
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
     setStatus("sending");
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(form);
     const payload: LeadPayload = {
       name: String(formData.get("name") ?? ""),
       contact: String(formData.get("contact") ?? ""),
@@ -74,20 +75,24 @@ function LeadForm({
       pageUrl: typeof window !== "undefined" ? window.location.href : undefined
     };
 
-    const response = await fetch("/api/leads", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload)
+      });
 
-    if (!response.ok) {
+      if (!response.ok) {
+        setStatus("error");
+        return;
+      }
+
+      form.reset();
+      setStatus("sent");
+      onSuccess?.();
+    } catch {
       setStatus("error");
-      return;
     }
-
-    event.currentTarget.reset();
-    setStatus("sent");
-    onSuccess?.();
   }
 
   return (
