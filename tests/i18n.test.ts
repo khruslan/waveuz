@@ -39,17 +39,9 @@ describe("i18n", () => {
     expect(stats.every((s) => typeof s.evidence === "string" && s.evidence.length > 0)).toBe(true);
   });
 
-  it("assets expose serviceIcons and industryPresets", () => {
+  it("assets expose serviceIcons", () => {
     expect(Array.isArray(assets.serviceIcons)).toBe(true);
     expect(assets.serviceIcons).toHaveLength(5);
-    expect(typeof assets.industryPresets).toBe("object");
-    expect(Object.keys(assets.industryPresets).sort()).toEqual(
-      ["banking", "fmcg", "government", "retail", "telecom"]
-    );
-    expect(assets.industryPresets.banking).toHaveLength(3);
-    expect(assets.industryPresets.banking[0]).toHaveProperty("image");
-    expect(assets.industryPresets.banking[0]).toHaveProperty("useCaseKey");
-    expect(assets.industryPresets.banking[0]).toHaveProperty("outcomeKey");
   });
 
   it("hero uses vertical positioning copy in all locales", () => {

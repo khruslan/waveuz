@@ -15,7 +15,7 @@ export const utmSchema = z
 export const leadPayloadSchema = z.object({
   name: z.string().trim().min(2).max(120),
   contact: z.string().trim().min(3).max(180),
-  message: z.string().trim().min(3).max(2_000),
+  message: z.string().trim().max(2_000).default(""),
   source: z.enum(["modal", "contact", "calculator"]),
   estimate: z.string().trim().max(500).optional(),
   amoVisitorUid: z.string().trim().max(120).optional(),

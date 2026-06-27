@@ -1,52 +1,16 @@
-import type { CompanyScale, IndustryPresetCard, Industry, StatItem } from "@/lib/types";
-
-// Phase C: translation keys below (ind.*) are placeholders.
-// Populate data/translations.generated.json before rendering IndustryPresets section.
-const industryPresets = {
-  banking: [
-    { image: "/media/ind-banking-01.webp", useCaseKey: "ind.banking.c1.uc", outcomeKey: "ind.banking.c1.out" },
-    { image: "/media/ind-banking-02.webp", useCaseKey: "ind.banking.c2.uc", outcomeKey: "ind.banking.c2.out" },
-    { image: "/media/ind-banking-03.webp", useCaseKey: "ind.banking.c3.uc", outcomeKey: "ind.banking.c3.out" }
-  ],
-  retail: [
-    { image: "/media/ind-retail-01.webp", useCaseKey: "ind.retail.c1.uc", outcomeKey: "ind.retail.c1.out" },
-    { image: "/media/ind-retail-02.webp", useCaseKey: "ind.retail.c2.uc", outcomeKey: "ind.retail.c2.out" },
-    { image: "/media/ind-retail-03.webp", useCaseKey: "ind.retail.c3.uc", outcomeKey: "ind.retail.c3.out" }
-  ],
-  telecom: [
-    { image: "/media/ind-telecom-01.webp", useCaseKey: "ind.telecom.c1.uc", outcomeKey: "ind.telecom.c1.out" },
-    { image: "/media/ind-telecom-02.webp", useCaseKey: "ind.telecom.c2.uc", outcomeKey: "ind.telecom.c2.out" },
-    { image: "/media/ind-telecom-03.webp", useCaseKey: "ind.telecom.c3.uc", outcomeKey: "ind.telecom.c3.out" }
-  ],
-  fmcg: [
-    { image: "/media/ind-fmcg-01.webp", useCaseKey: "ind.fmcg.c1.uc", outcomeKey: "ind.fmcg.c1.out" },
-    { image: "/media/ind-fmcg-02.webp", useCaseKey: "ind.fmcg.c2.uc", outcomeKey: "ind.fmcg.c2.out" },
-    { image: "/media/ind-fmcg-03.webp", useCaseKey: "ind.fmcg.c3.uc", outcomeKey: "ind.fmcg.c3.out" }
-  ],
-  government: [
-    { image: "/media/ind-gov-01.webp", useCaseKey: "ind.gov.c1.uc", outcomeKey: "ind.gov.c1.out" },
-    { image: "/media/ind-gov-02.webp", useCaseKey: "ind.gov.c2.uc", outcomeKey: "ind.gov.c2.out" },
-    { image: "/media/ind-gov-03.webp", useCaseKey: "ind.gov.c3.uc", outcomeKey: "ind.gov.c3.out" }
-  ]
-} satisfies Record<string, IndustryPresetCard[]>;
+import type { ClientItem, CompanyScale, Industry, StatItem, WorkItem } from "@/lib/types";
 
 export const assets = {
   heroVideo: "/media/hero.mp4",
   contactVideo: "/media/contact.mp4",
   processVideo: "/media/process.mp4",
-  workImages: [
-    "/media/work-01.webp",
-    "/media/work-02.webp",
-    "/media/work-03.webp"
-  ],
   serviceIcons: [
     "/media/svc-01.webm",
     "/media/svc-02.webm",
     "/media/svc-03.webm",
     "/media/svc-04.webm",
     "/media/svc-05.webm"
-  ],
-  industryPresets
+  ]
 };
 
 export const navItems = [
@@ -56,20 +20,20 @@ export const navItems = [
   { href: "#team", key: "nav.team" }
 ];
 
-export const clients = [
+export const clients: ClientItem[][] = [
   [
-    "Jusan Bank",
-    "Air Astana",
-    "Kolesa Group",
-    "ForteBank",
-    "Freedom Finance",
-    "Choco",
-    "BI Group",
-    "Kcell",
-    "Beeline KZ",
-    "Magnum"
+    { name: "UMarket", badge: "Marketplace" },
+    { name: "INTECA", badge: "Education" },
+    { name: "ART.KZ", badge: "Art" },
+    { name: "HIBA", badge: "Agritech" },
+    { name: "Lev Telman", badge: "Healthcare" }
   ],
-  ["Uzum", "Humans", "Payme", "Click", "Alif Bank", "Artel", "Ucell", "Orient Group", "Hamkorbank", "Zoomrad"]
+  [
+    { name: "Just AI", badge: "AI" },
+    { name: "Mirsot", badge: "Consulting" },
+    { name: "KazParts", badge: "E-commerce" },
+    { name: "RA Group", badge: "Investment" }
+  ]
 ];
 
 export const marqueeItems = [
@@ -111,10 +75,16 @@ export const testimonials = [
   { text: "tm4.text", who: "tm4.who" }
 ];
 
-export const workItems = [
-  { tag: "wk1.tag", name: "wk1.name", alt: "AI Credit Scoring" },
-  { tag: "wk2.tag", name: "wk2.name", alt: "Semantic Search" },
-  { tag: "wk3.tag", name: "wk3.name", alt: "Supply Chain" }
+export const workItems: WorkItem[] = [
+  { tag: "case.umarket.tag", name: "case.umarket.name", desc: "case.umarket.desc", image: "/media/case-umarket.jpg", alt: "UMarket" },
+  { tag: "case.inteca.tag", name: "case.inteca.name", desc: "case.inteca.desc", image: "/media/case-inteca.jpg", alt: "INTECA" },
+  { tag: "case.art.tag", name: "case.art.name", desc: "case.art.desc", image: "/media/case-art.jpg", alt: "ART.KZ" },
+  { tag: "case.hiba.tag", name: "case.hiba.name", desc: "case.hiba.desc", image: "/media/case-hiba.jpg", alt: "HIBA" },
+  { tag: "case.lev.tag", name: "case.lev.name", desc: "case.lev.desc", image: "/media/case-lev.jpg", alt: "Lev Telman" },
+  { tag: "case.justai.tag", name: "case.justai.name", desc: "case.justai.desc", image: "/media/case-justai.jpg", alt: "Just AI" },
+  { tag: "case.mirsot.tag", name: "case.mirsot.name", desc: "case.mirsot.desc", image: "/media/case-mirsot.jpg", alt: "Mirsot" },
+  { tag: "case.kazparts.tag", name: "case.kazparts.name", desc: "case.kazparts.desc", image: "/media/case-kazparts.jpg", alt: "KazParts" },
+  { tag: "case.ragroup.tag", name: "case.ragroup.name", desc: "case.ragroup.desc", image: "/media/case-ragroup.jpg", alt: "RA Group" }
 ];
 
 export const processSteps = [

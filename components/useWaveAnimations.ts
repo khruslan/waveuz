@@ -8,6 +8,31 @@ export function useWaveAnimations() {
     let frame = 0;
     const cleanup: Array<() => void> = [];
 
+    // CSS-fallback helpers: ensure content is visible and counters reach their
+    // final value even if GSAP never runs (reduced motion or boot failure).
+    const showAllReveals = () => {
+      document.querySelectorAll<HTMLElement>(".rv").forEach((element) => element.classList.add("in"));
+    };
+    const finalizeCounters = () => {
+      document.querySelectorAll<HTMLElement>(".cnt").forEach((element) => {
+        const target = Number(element.dataset.v ?? 0);
+        element.textContent = String(target);
+        element.closest(".st-cell")?.classList.add("lit");
+      });
+    };
+
+    const reduceMotion =
+      typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Reduced-motion guard: skip Lenis smooth-scroll, 3D tilt, char-reveal and
+    // the custom cursor. Reveal everything and finalize counters immediately so
+    // native scroll/cursor and all content keep working.
+    if (reduceMotion) {
+      showAllReveals();
+      finalizeCounters();
+      return;
+    }
+
     async function boot() {
       const [{ gsap }, { ScrollTrigger }, { default: Lenis }] = await Promise.all([
         import("gsap"),
@@ -22,6 +47,13 @@ export function useWaveAnimations() {
         duration: 1.25,
         easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)),
         smoothWheel: true
+      });
+
+      // Expose the Lenis instance so modal open/close can stop/start smooth
+      // scroll (background scroll-lock).
+      (window as unknown as { __wlLenis?: { stop(): void; start(): void } }).__wlLenis = lenis;
+      cleanup.push(() => {
+        delete (window as unknown as { __wlLenis?: unknown }).__wlLenis;
       });
 
       const progress = document.getElementById("progress");
@@ -64,6 +96,9 @@ export function useWaveAnimations() {
       const pin = document.getElementById("services-pin");
       if (track && pin && track.parentElement) {
         const distance = Math.max(0, track.scrollWidth - track.parentElement.offsetWidth);
+        const progBar = document.getElementById("svProgBar");
+        const progNum = document.getElementById("svProgNum");
+        const cardCount = track.childElementCount;
         gsap.to(track, {
           x: -distance,
           ease: "none",
@@ -72,7 +107,14 @@ export function useWaveAnimations() {
             pin: true,
             scrub: 0.8,
             end: `+=${distance + 200}`,
-            invalidateOnRefresh: true
+            invalidateOnRefresh: true,
+            onUpdate: ({ progress: trackProgress }: { progress: number }) => {
+              if (progBar) progBar.style.transform = `scaleX(${trackProgress})`;
+              if (progNum && cardCount > 0) {
+                const current = Math.min(cardCount, Math.floor(trackProgress * cardCount) + 1);
+                progNum.textContent = String(current).padStart(2, "0");
+              }
+            }
           }
         });
       }
@@ -142,7 +184,16 @@ export function useWaveAnimations() {
       ScrollTrigger.refresh();
     }
 
-    boot();
+    // Boot can reject (dynamic import failure) or throw mid-init. In every
+    // failure path, fall back to the CSS reveal so content is never stuck at
+    // opacity:0, and finalize counters so they never read "0".
+    boot().catch((error) => {
+      if (cancelled) return;
+      console.error("WaveLabs animation init failed", error);
+      showAllReveals();
+      finalizeCounters();
+    });
+
     return () => {
       cancelled = true;
       cleanup.forEach((fn) => fn());
@@ -150,6 +201,12 @@ export function useWaveAnimations() {
   }, []);
 
   useEffect(() => {
+    // Reduced motion: do not draw a custom cursor and never hide the native one
+    // (the `cursor-ready` class below is what enables `cursor:none` in CSS).
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const canvas = document.getElementById("cursor-canvas") as HTMLCanvasElement | null;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
@@ -188,6 +245,7 @@ export function useWaveAnimations() {
     let hovering = false;
     let pressing = false;
     let frame = 0;
+    let cursorReady = false;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -264,12 +322,19 @@ export function useWaveAnimations() {
         ctx.stroke();
       }
 
+      // Hide the native cursor only once the canvas cursor is actually drawing.
+      if (!cursorReady) {
+        cursorReady = true;
+        document.documentElement.classList.add("cursor-ready");
+      }
+
       frame = requestAnimationFrame(draw);
     };
     draw();
 
     return () => {
       cancelAnimationFrame(frame);
+      document.documentElement.classList.remove("cursor-ready");
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);

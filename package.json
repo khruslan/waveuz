@@ -19,7 +19,6 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "split-type": "latest",
     "zod": "latest"
   },
   "devDependencies": {

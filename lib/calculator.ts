@@ -39,19 +39,29 @@ const INDUSTRY_NAMES: Record<Locale, Record<Industry, string>> = {
     health: "healthcare",
     realestate: "ko'chmas mulk",
     other: "texnologiya"
+  },
+  kk: {
+    fintech: "FinTech",
+    ecom: "e-commerce",
+    logistics: "логистика",
+    health: "healthcare",
+    realestate: "жылжымайтын мүлік",
+    other: "технология"
   }
 };
 
 const DEFAULT_IDEA: Record<Locale, string> = {
   en: "AI system",
   ru: "AI-система",
-  uz: "AI tizim"
+  uz: "AI tizim",
+  kk: "AI-жүйе"
 };
 
 const DATE_LOCALE: Record<Locale, string> = {
   en: "en-GB",
   ru: "ru-RU",
-  uz: "uz-Latn-UZ"
+  uz: "uz-Latn-UZ",
+  kk: "kk-KZ"
 };
 
 const EUR_RATE = 0.92;
@@ -94,7 +104,7 @@ export function calculateEstimate(input: CalculatorInput): CalculatorEstimate {
     display: {
       usd: `$${formatCompactMoney(usd.low)} - $${formatCompactMoney(usd.high)}`,
       eur: `€${formatCompactMoney(eur.low)} - €${formatCompactMoney(eur.high)}`,
-      uzs: `${formatCompactMoney(uzs.low)} - ${formatCompactMoney(uzs.high)}`,
+      uzs: `${formatCompactMoney(uzs.low)} - ${formatCompactMoney(uzs.high)} UZS`,
       timeline: `${base.weeks} weeks`
     }
   };
@@ -195,6 +205,33 @@ NIMANI OLASIZ
 
 KEYINGI QADAM
 Biz bilan bog'laning:
+hello@wavelabs.uz | IT Park · AIFC · Astana Hub`,
+    kk: `КОММЕРЦИЯЛЫҚ ҰСЫНЫС
+WaveLabs AI Engineering Studio
+Күні: ${dateStr}
+
+ЖОБА: ${idea}
+
+МІНДЕТ
+Сіздің сұранысыңыз негізінде WaveLabs ${industry} секторы үшін ${
+      input.scale === "enterprise" ? "корпорация" : input.scale === "smb" ? "орта бизнес" : "стартап"
+    } форматына бейімделген AI-шешім ұсынады.
+
+ИНВЕСТИЦИЯ
+${commonInvestment}
+Икемді төлем кестесі қолжетімді.
+
+МЕРЗІМ
+Продакшнға дайын жүйеге дейін ${estimate.timelineWeeks} апта.
+
+СІЗ НЕ АЛАСЫЗ
+-> C-Level командамен тікелей өзара әрекеттесу
+-> Апта сайынғы жеткізілімдер
+-> Іске қосқаннан кейін 60 күндік қолдау
+-> IP толығымен сіздікі
+
+КЕЛЕСІ ҚАДАМ
+Бізбен байланысыңыз:
 hello@wavelabs.uz | IT Park · AIFC · Astana Hub`
   };
 

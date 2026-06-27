@@ -1,4 +1,4 @@
-export type Locale = "en" | "ru" | "uz";
+export type Locale = "en" | "ru" | "uz" | "kk";
 export type Theme = "dark" | "light";
 
 export type Industry = "fintech" | "ecom" | "logistics" | "health" | "realestate" | "other";
@@ -59,4 +59,17 @@ export type IndustryPresetCard = {
   image: string;
   useCaseKey: string;
   outcomeKey: string;
+};
+
+export type WorkItem = {
+  tag: string;
+  name: string;
+  desc: string;
+  image: string;
+  alt: string;
+};
+
+export type ClientItem = {
+  name: string;
+  badge: string;
 };
